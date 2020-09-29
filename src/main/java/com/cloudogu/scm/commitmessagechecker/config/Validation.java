@@ -21,21 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.cloudogu.scm.commitmessagechecker.config;
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
+@XmlAccessorType(XmlAccessType.FIELD)
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Validation {
+  private String name;
+//  @XmlJavaTypeAdapter(XmlConfiguration.RuleConfigurationXmlAdapter.class) TODO add adapter
+  private Object configuration;
+
+  public Validation(String name) {
+    this(name, null);
+  }
+
+  static Validation of(Class<?> clazz) {
+    return new Validation(clazz.getSimpleName());
+  }
+}

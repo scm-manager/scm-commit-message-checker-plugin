@@ -21,21 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.cloudogu.scm.commitmessagechecker.config;
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sonia.scm.repository.Repository;
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
+import javax.inject.Inject;
+import java.util.Optional;
 
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
+public class ConfigurationProvider {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ConfigurationProvider.class);
+
+  private final ConfigStore configStore;
+
+  @Inject
+  public ConfigurationProvider(ConfigStore configStore) {
+    this.configStore = configStore;
+  }
+
+  public Optional<Configuration> evaluateConfiguration(Repository repository) {
+    GlobalConfiguration globalConfiguration = configStore.getGlobalConfiguration();
+    Configuration repoConfig = configStore.getConfiguration(repository);
+
+    if (!globalConfiguration.isDisableRepositoryConfiguration() && repoConfig.isEnabled()) {
+      return Optional.of(repoConfig);
+    } else if (globalConfiguration.isEnabled()) {
+      return Optional.of(globalConfiguration);
+    } else {
+      LOG.debug("No configuration for commit-message-checker exist.");
+      return Optional.empty();
+    }
+  }
+}

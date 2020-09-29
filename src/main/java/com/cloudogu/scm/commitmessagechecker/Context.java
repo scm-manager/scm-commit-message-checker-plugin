@@ -21,21 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.cloudogu.scm.commitmessagechecker;
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
+import lombok.AllArgsConstructor;
+import lombok.Value;
+import sonia.scm.repository.Repository;
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
+@Value
+@AllArgsConstructor
+public class Context {
+  private Repository repository;
+  private Object configuration;
 
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
+  public <C> C getConfiguration(Class<C> configurationType) {
+    return configurationType.cast(configuration);
+  }
+
+  public Context(Repository repository) {
+    this(repository, null);
+  }
+}

@@ -21,21 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.cloudogu.scm.commitmessagechecker;
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
-
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
-
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
+public final class Constants {
+  public static final String NAME = "commitMessageChecker";
+  public static final String READ_COMMIT_MESSAGE_CHECKER_PERMISSION = "readCommitMessageCheckerConfig";
+  public static final String WRITE_COMMIT_MESSAGE_CHECKER_PERMISSION = "writeCommitMessageCheckerConfig";
+  private Constants() {
+  }
+}

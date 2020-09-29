@@ -47,6 +47,20 @@
     <url>https://github.com/scm-manager/scm-commit-message-checker-plugin</url>
   </scm>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.openapitools.swagger</groupId>
+        <artifactId>swagger-maven-plugin</artifactId>
+        <configuration>
+          <resourcePackages>
+            <resourcePackage>com.cloudogu.scm.commitmessagechecker.config</resourcePackage>
+          </resourcePackages>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <repositories>
 
     <repository>

@@ -21,21 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import React, { FC } from "react";
+import { Subtitle, Configuration } from "@scm-manager/ui-components";
+import { useTranslation } from "react-i18next";
+import CommitMessageCheckerValidationEditor from "./CommitMessageCheckerValidationEditor";
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
+type Props = {
+  link: string;
+};
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
+const CommitMessageCheckerGlobalConfig: FC<Props> = ({ link }) => {
+  const [t] = useTranslation("plugins");
 
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
+  return (
+    <>
+      <Subtitle subtitle={t("scm-commit-message-checker-plugin.config.title")} />
+      <Configuration link={link} render={props => <CommitMessageCheckerValidationEditor {...props} global={true}/>} />
+    </>
+  );
+};
+
+export default CommitMessageCheckerGlobalConfig;

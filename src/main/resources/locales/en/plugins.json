@@ -1,5 +1,15 @@
 {
   "scm-commit-message-checker-plugin": {
-
+    "config": {
+      "link": "Commit Message Validation",
+      "title": "Commit Message Validation",
+      "enabled": "Commit message validation enabled",
+      "disableRepositoryConfiguration": {
+        "label": "Disabled repository-specific configuration",
+        "helpText": "If checked it is not possible to create a custom configuration for a repository."
+      },
+      "noValidationsConfigured": "There are no validations configured yet.",
+      "noMoreValidatorsAvailable": "There are no more validators available."
+    }
   }
 }

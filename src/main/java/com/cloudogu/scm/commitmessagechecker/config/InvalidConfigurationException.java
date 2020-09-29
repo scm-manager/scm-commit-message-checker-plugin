@@ -22,20 +22,24 @@
  * SOFTWARE.
  */
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
+package com.cloudogu.scm.commitmessagechecker.config;
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
+import com.cloudogu.scm.commitmessagechecker.AvailableValidators;
+import com.cloudogu.scm.commitmessagechecker.Validator;
+import sonia.scm.BadRequestException;
+import sonia.scm.ContextEntry;
 
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
+@SuppressWarnings("squid:MaximumInheritanceDepth") // exceptions have a deep inheritance depth themselves; therefore we accept this here
+public class InvalidConfigurationException extends BadRequestException {
+
+  public static final String CODE = "4wSBxkux01";
+
+  public InvalidConfigurationException(Validator validator, Exception cause) {
+    super(ContextEntry.ContextBuilder.entity("validator", AvailableValidators.nameOf(validator)).build(), "configuration could not be parsed", cause);
+  }
+
+  @Override
+  public String getCode() {
+    return CODE;
+  }
+}

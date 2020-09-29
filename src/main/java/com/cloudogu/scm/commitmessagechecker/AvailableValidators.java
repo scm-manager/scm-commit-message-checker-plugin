@@ -22,10 +22,42 @@
  * SOFTWARE.
  */
 
-describe("frontend unit tests", () => {
+package com.cloudogu.scm.commitmessagechecker;
 
-  it("some test", () => {
-    expect( 21 * 2 ).toBe(42);
-  });
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableSet;
 
-});
+import javax.inject.Inject;
+import java.util.Set;
+
+public class AvailableValidators {
+
+  private final Set<Validator> validators;
+
+  @Inject
+  public AvailableValidators(Set<Validator> validators) {
+    this.validators = validators;
+  }
+
+  @SafeVarargs
+  @VisibleForTesting
+  static AvailableValidators of(Validator... validators) {
+    return new AvailableValidators(ImmutableSet.copyOf(validators));
+  }
+
+  public Validator validatorOf(String name) {
+    return validators.stream()
+      .filter(validator -> validator.getClass().getSimpleName().equals(name))
+      .findFirst()
+      .orElseThrow(() -> new UnknownValidatorException(name));
+  }
+
+  public static String nameOf(Validator validator) {
+    return nameOf(validator.getClass());
+  }
+
+  public static String nameOf(Class<? extends Validator> validatorClass) {
+    return validatorClass.getSimpleName();
+  }
+
+}

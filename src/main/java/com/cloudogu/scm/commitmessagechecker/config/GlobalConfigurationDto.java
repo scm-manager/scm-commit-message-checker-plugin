@@ -21,21 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.cloudogu.scm.commitmessagechecker.config;
 
-package com.cloudogu.scm.commitmessagechecker;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-@Path("v2/sample")
-class SampleResource {
-
-  @GET
-  @Produces(MediaType.TEXT_PLAIN)
-  public String sample() {
-    return "Sample";
-  }
-
+@NoArgsConstructor
+@Getter
+@Setter
+@SuppressWarnings("java:S2160") // we do not use equals and hashcode on dto
+public class GlobalConfigurationDto extends ConfigurationDto {
+  private boolean disableRepositoryConfiguration;
 }
