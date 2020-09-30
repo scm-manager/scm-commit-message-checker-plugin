@@ -21,39 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.cloudogu.scm.commitmessagechecker.config;
+package com.cloudogu.scm.commitmessagechecker;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.junit.jupiter.api.Test;
+import sonia.scm.ContextEntry;
+import sonia.scm.ExceptionWithContext;
 
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+public class InvalidCommitMessageException extends ExceptionWithContext {
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+  private static final String CODE = "6iSC54Smd1";
 
-class ConfigurationValidatorTest {
-
-  ConfigurationValidator validator = new ConfigurationValidator();
-
-  @Test
-  void shouldSuccessfullyValidate() {
-    validator.validate(new ValidatorConfig("abc", "master"));
+  public InvalidCommitMessageException(ContextEntry.ContextBuilder context, String message) {
+    super(context.build(), message);
   }
 
-  @Test
-  void validationShouldFail() {
-    assertThrows(ConstraintViolationException.class, () -> validator.validate(new ValidatorConfig(null, "")));
+  @Override
+  public String getCode() {
+    return CODE;
   }
-
-  @AllArgsConstructor
-  @Getter
-  static class ValidatorConfig {
-    @NotNull
-    private final String pattern;
-    @NotBlank
-    private final String branches;
-  }
-
 }

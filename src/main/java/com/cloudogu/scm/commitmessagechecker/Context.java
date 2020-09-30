@@ -31,6 +31,7 @@ import sonia.scm.repository.Repository;
 @AllArgsConstructor
 public class Context {
   private Repository repository;
+  private String branch;
   private Object configuration;
 
   public <C> C getConfiguration(Class<C> configurationType) {
@@ -38,6 +39,6 @@ public class Context {
   }
 
   public Context(Repository repository) {
-    this(repository, null);
+    this(repository, null, null);
   }
 }
