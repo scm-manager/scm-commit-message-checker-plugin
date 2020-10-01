@@ -51,8 +51,9 @@ const ValidationConfigTable: FC<Props> = ({ configuration, deleteValidation }) =
     <NoBorderLeft className="card-table table is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th>{t("scm-commit-message-checker-plugin.validation.column.name")}</th>
-          <th>{t("scm-commit-message-checker-plugin.validation.column.description")}</th>
+          <th>{t("scm-commit-message-checker-plugin.config.validationTable.column.name")}</th>
+          <th>{t("scm-commit-message-checker-plugin.config.validationTable.column.branches")}</th>
+          <th>{t("scm-commit-message-checker-plugin.config.validationTable.column.description")}</th>
           <th></th>
         </tr>
       </thead>
@@ -62,7 +63,8 @@ const ValidationConfigTable: FC<Props> = ({ configuration, deleteValidation }) =
             <td>
               <strong>{t(`validation.${validation.name}.name`)}</strong>
             </td>
-            <td>{t(`validation.${validation.name}.description`, validation.configuration)}</td>
+            <td>{t(`validation.${validation.name}.branches`, { ...validation.configuration })}</td>
+            <td>{t(`validation.${validation.name}.description`, { ...validation.configuration })}</td>
             <VCenteredTd>
               <a
                 className="level-item"

@@ -4,7 +4,7 @@
       "link": "Commit Message Validation",
       "title": "Commit Message Validation",
       "enabled": {
-        "label": "Commit message validation enabled",
+        "label": "Enable Commit message validation",
         "helpText": "If enabled each new commit will validated for the commit message."
       },
       "disableRepositoryConfiguration": {
@@ -19,7 +19,21 @@
       },
       "addValidation": {
         "label": "Add validation"
+      },
+      "validationTable": {
+        "column": {
+          "name": "Validator",
+          "branches": "Branches",
+          "description": "Description"
+        }
       }
+    }
+  },
+  "validation": {
+    "CustomRegExValidator": {
+      "name": "Custom regex validation",
+      "branches": "{{ branches }}",
+      "description": "Validation pattern used: {{ pattern }}"
     }
   },
   "validator": {
@@ -28,12 +42,12 @@
       "description": "Use your custom regular expression pattern for validation.",
       "pattern": {
         "label": "Pattern",
-        "helpText": "Custom regular expression for validation.\n\nExample: ^[A-Za-z0-9 ]+$",
+        "helpText": "Custom regular expression for validation.\nExample: ^[A-Za-z0-9 ]+$",
         "errorMessage": "Please insert a valid pattern."
       },
       "branches": {
         "label": "Branches",
-        "helpText": "List of the branches which should be validated separated by comma. To validate all branches just set \"*\".\n\nExample: master,feature/*",
+        "helpText": "List of the branches which should be validated separated by comma. To validate all branches just set \"*\".\nExample: master,feature/*",
         "errorMessage": "Please insert your branches."
       },
       "errorMessage": {

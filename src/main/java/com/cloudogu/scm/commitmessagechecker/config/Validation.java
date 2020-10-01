@@ -38,9 +38,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Validation {
-  private String name;
-//  @XmlJavaTypeAdapter(XmlConfiguration.RuleConfigurationXmlAdapter.class) TODO add adapter
-  private Object configuration;
+  String name;
+  @XmlJavaTypeAdapter(XmlConfiguration.ValidationConfigurationXmlAdapter.class)
+  Object configuration;
 
   public Validation(String name) {
     this(name, null);
