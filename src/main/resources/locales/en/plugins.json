@@ -3,13 +3,44 @@
     "config": {
       "link": "Commit Message Validation",
       "title": "Commit Message Validation",
-      "enabled": "Commit message validation enabled",
+      "enabled": {
+        "label": "Commit message validation enabled",
+        "helpText": "If enabled each new commit will validated for the commit message."
+      },
       "disableRepositoryConfiguration": {
         "label": "Disabled repository-specific configuration",
         "helpText": "If checked it is not possible to create a custom configuration for a repository."
       },
       "noValidationsConfigured": "There are no validations configured yet.",
-      "noMoreValidatorsAvailable": "There are no more validators available."
+      "noMoreValidatorsAvailable": "There are no more validators available.",
+      "newValidation": {
+        "label": "Add new validation",
+        "helpText": "All added validators will be executed for each new commit."
+      },
+      "addValidation": {
+        "label": "Add validation"
+      }
+    }
+  },
+  "validator": {
+    "CustomRegExValidator": {
+      "name": "Custom regex validator",
+      "description": "Use your custom regular expression pattern for validation.",
+      "pattern": {
+        "label": "Pattern",
+        "helpText": "Custom regular expression for validation.\n\nExample: ^[A-Za-z0-9 ]+$",
+        "errorMessage": "Please insert a valid pattern."
+      },
+      "branches": {
+        "label": "Branches",
+        "helpText": "List of the branches which should be validated separated by comma. To validate all branches just set \"*\".\n\nExample: master,feature/*",
+        "errorMessage": "Please insert your branches."
+      },
+      "errorMessage": {
+        "label": "Error message",
+        "helpText": "Error which will be shown to the user on commit message validation failure.",
+        "errorMessage": "Please insert an error message."
+      }
     }
   }
 }

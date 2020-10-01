@@ -127,7 +127,7 @@ const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration,
       return <Loading />;
     }
 
-    if (config.validations.length > 1) {
+    if (availableValidators?.length > 0) {
       return (
         <Select
           label={t("scm-commit-message-checker-plugin.config.newValidation.label")}
@@ -162,7 +162,7 @@ const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration,
     <div className="column is-full">
       <Checkbox
         name={"enabled"}
-        label={t("scm-commit-message-checker-plugin.config.enabled")}
+        label={t("scm-commit-message-checker-plugin.config.enabled.label")}
         helpText={t("scm-commit-message-checker-plugin.config.enabled.helpText")}
         checked={config.enabled}
         onChange={enabled => setConfig({ ...config, enabled })}

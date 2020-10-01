@@ -25,6 +25,8 @@
 import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
 import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
 import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
+import CustomRegExValidatorConfig from "./CustomRegExValidatorConfig";
+import { binder } from "@scm-manager/ui-extensions";
 
 cfgBinder.bindRepositorySetting(
   "/commit-message-checker",
@@ -39,3 +41,5 @@ cfgBinder.bindGlobal(
   "commitMessageCheckerConfig",
   CommitMessageCheckerGlobalConfig
 );
+
+binder.bind("commitMessageChecker.validator.CustomRegExValidator", CustomRegExValidatorConfig);

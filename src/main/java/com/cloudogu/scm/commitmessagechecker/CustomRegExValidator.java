@@ -23,7 +23,6 @@
  */
 package com.cloudogu.scm.commitmessagechecker;
 
-import com.google.common.base.Strings;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -67,13 +66,9 @@ public class CustomRegExValidator implements Validator {
   }
 
   private boolean shouldValidateBranch(CustomRegExValidatorConfig configuration, String commitBranch) {
-    if (Strings.isNullOrEmpty(configuration.getBranches())) {
-      return false;
-    }
-    return
-      Arrays
+    return Arrays
         .stream(configuration.getBranches().split(","))
-        .anyMatch(branch -> GlobUtil.matches(branch, commitBranch));
+        .anyMatch(branch -> GlobUtil.matches(branch.trim(), commitBranch));
   }
 
   private boolean isInvalidCommitMessage(CustomRegExValidatorConfig configuration, String commitMessage) {
@@ -89,6 +84,8 @@ public class CustomRegExValidator implements Validator {
     @NotNull
     @NotBlank
     private String pattern;
+    @NotNull
+    @NotBlank
     private String branches;
     private String errorMessage;
   }
