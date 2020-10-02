@@ -64,9 +64,17 @@ const ValidationConfigTable: FC<Props> = ({ configuration, deleteValidation }) =
             <td>
               <strong>{t(`validation.${validation.name}.name`)}</strong>
             </td>
-            <td>{t(`validation.${validation.name}.branches`, { ...validation.configuration })}</td>
+            <td>
+              {validation?.configuration?.branches
+                ? t(`validation.${validation.name}.branches`, { ...validation.configuration })
+                : t(`validation.${validation.name}.allBranches`)}
+            </td>
             <td>{t(`validation.${validation.name}.description`, { ...validation.configuration })}</td>
-            <td>{t(`validation.${validation.name}.errorMessage`, { ...validation.configuration })}</td>
+            <td>
+              {validation?.configuration?.errorMessage
+                ? t(`validation.${validation.name}.errorMessage`, { ...validation.configuration })
+                : t(`validation.${validation.name}.defaultErrorMessage`)}
+            </td>
             <VCenteredTd>
               <a
                 className="level-item"

@@ -34,8 +34,10 @@
     "CustomRegExValidator": {
       "name": "Custom regex validation",
       "branches": "{{ branches }}",
+      "allBranches": "<all branches>",
       "description": "Pattern: {{ pattern }}",
-      "errorMessage": "{{ errorMessage }}"
+      "errorMessage": "{{ errorMessage }}",
+      "defaultErrorMessage": "<default error message>"
     }
   },
   "validator": {
@@ -55,6 +57,12 @@
         "label": "Error message",
         "helpText": "Error which will be shown to the user on validation failure. If not set the default message will be shown."
       }
+    }
+  },
+  "errors": {
+    "4wSBxkux01": {
+      "displayName": "Invalid configuration",
+      "description": "The submitted configuration was invalid. Please check your configuration."
     }
   }
 }

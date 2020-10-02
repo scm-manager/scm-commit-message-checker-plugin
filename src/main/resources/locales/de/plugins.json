@@ -34,8 +34,10 @@
     "CustomRegExValidator": {
       "name": "Eigene RegEx Validierung",
       "branches": "{{ branches }}",
+      "allBranches": "<Alle Branches>",
       "description": "Muster: {{ pattern }}",
-      "errorMessage": "{{ errorMessage }}"
+      "errorMessage": "{{ errorMessage }}",
+      "defaultErrorMessage": "<Standard-Fehlermeldung>"
     }
   },
   "validator": {
@@ -55,6 +57,12 @@
         "label": "Fehlermeldung",
         "helpText": "Die Fehlermeldung, welche dem Benutzer bei einer ungültigen Commit Nachricht angezeigt wird. Wird keine gesetzt, wird die Standard-Fehlermeldung angezeigt."
       }
+    }
+  },
+  "errors": {
+    "4wSBxkux01": {
+      "displayName": "Ungültige Konfiguration",
+      "description": "Die gespeicherte Konfiguration ist ungültig. Bitte prüfen Sie Ihre Eingaben."
     }
   }
 }

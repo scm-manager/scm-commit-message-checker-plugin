@@ -68,10 +68,10 @@ public class CustomRegExValidator implements Validator {
   }
 
   private String getErrorMessage(CustomRegExValidatorConfig configuration) {
-   if (Strings.isNullOrEmpty(configuration.getErrorMessage())) {
-     return DEFAULT_ERROR_MESSAGE;
-   }
-   return configuration.getErrorMessage();
+    if (Strings.isNullOrEmpty(configuration.getErrorMessage())) {
+      return DEFAULT_ERROR_MESSAGE;
+    }
+    return configuration.getErrorMessage();
   }
 
   private boolean shouldValidateBranch(CustomRegExValidatorConfig configuration, String commitBranch) {
@@ -79,8 +79,8 @@ public class CustomRegExValidator implements Validator {
       return true;
     }
     return Arrays
-        .stream(configuration.getBranches().split(","))
-        .anyMatch(branch -> GlobUtil.matches(branch.trim(), commitBranch));
+      .stream(configuration.getBranches().split(","))
+      .anyMatch(branch -> GlobUtil.matches(branch.trim(), commitBranch));
   }
 
   private boolean isInvalidCommitMessage(CustomRegExValidatorConfig configuration, String commitMessage) {

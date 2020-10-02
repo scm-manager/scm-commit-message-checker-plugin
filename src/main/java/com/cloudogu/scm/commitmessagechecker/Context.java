@@ -37,8 +37,4 @@ public class Context {
   public <C> C getConfiguration(Class<C> configurationType) {
     return configurationType.cast(configuration);
   }
-
-  public Context(Repository repository) {
-    this(repository, null, null);
-  }
 }
