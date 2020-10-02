@@ -23,6 +23,7 @@
  */
 package com.cloudogu.scm.commitmessagechecker;
 
+import com.google.common.base.Strings;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,14 +59,25 @@ public class CustomRegExValidator implements Validator {
     CustomRegExValidatorConfig configuration = context.getConfiguration(CustomRegExValidatorConfig.class);
     String commitBranch = context.getBranch();
     if (shouldValidateBranch(configuration, commitBranch) && isInvalidCommitMessage(configuration, commitMessage)) {
+      getErrorMessage(configuration);
       throw new InvalidCommitMessageException(
         ContextEntry.ContextBuilder.entity(context.getRepository()),
-        "The Commit Message doesn't match the required format."
+        getErrorMessage(configuration)
       );
     }
   }
 
+  private String getErrorMessage(CustomRegExValidatorConfig configuration) {
+   if (Strings.isNullOrEmpty(configuration.getErrorMessage())) {
+     return "The commit message doesn't match the validation pattern.";
+   }
+   return configuration.getErrorMessage();
+  }
+
   private boolean shouldValidateBranch(CustomRegExValidatorConfig configuration, String commitBranch) {
+    if (Strings.isNullOrEmpty(commitBranch)) {
+      return true;
+    }
     return Arrays
         .stream(configuration.getBranches().split(","))
         .anyMatch(branch -> GlobUtil.matches(branch.trim(), commitBranch));
@@ -84,8 +96,6 @@ public class CustomRegExValidator implements Validator {
     @NotNull
     @NotBlank
     private String pattern;
-    @NotNull
-    @NotBlank
     private String branches;
     private String errorMessage;
   }
