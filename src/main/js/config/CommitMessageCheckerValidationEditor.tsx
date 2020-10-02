@@ -127,22 +127,14 @@ const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration,
       return <Loading />;
     }
 
-    if (availableValidators?.length > 0) {
-      return (
-        <Select
-          label={t("scm-commit-message-checker-plugin.config.newValidation.label")}
-          helpText={t("scm-commit-message-checker-plugin.config.newValidation.helpText")}
-          onChange={selectValidation}
-          options={options}
-          value={selectedValidator}
-        />
-      );
-    }
-
     return (
-      <Notification type={"info"}>
-        {t("scm-commit-message-checker-plugin.config.noMoreValidatorsAvailable")}
-      </Notification>
+      <Select
+        label={t("scm-commit-message-checker-plugin.config.newValidation.label")}
+        helpText={t("scm-commit-message-checker-plugin.config.newValidation.helpText")}
+        onChange={selectValidation}
+        options={options}
+        value={selectedValidator}
+      />
     );
   };
 

@@ -12,7 +12,6 @@
         "helpText": "If checked it is not possible to create a custom configuration for a repository."
       },
       "noValidationsConfigured": "There are no validations configured yet.",
-      "noMoreValidatorsAvailable": "There are no more validators available.",
       "newValidation": {
         "label": "Add new validation",
         "helpText": "All added validators will be executed for each new commit."
