@@ -70,8 +70,12 @@ public class CommitMessageCheckerHook {
     for (Validation validation : validations) {
       Validator validator = availableValidators.validatorOf(validation.getName());
       for (Changeset changeset : context.getChangesetProvider().getChangesetList()) {
-        for (String branch : changeset.getBranches()) {
-          validator.validate(new Context(repository, branch, validation.getConfiguration()), changeset.getDescription());
+        if (!changeset.getBranches().isEmpty()) {
+          for (String branch : changeset.getBranches()) {
+            validator.validate(new Context(repository, branch, validation.getConfiguration()), changeset.getDescription());
+          }
+        } else {
+          validator.validate(new Context(repository, "", validation.getConfiguration()), changeset.getDescription());
         }
       }
     }

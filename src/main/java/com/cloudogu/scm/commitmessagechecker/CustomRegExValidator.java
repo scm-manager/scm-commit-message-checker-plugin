@@ -42,6 +42,7 @@ import java.util.Optional;
 @Extension
 public class CustomRegExValidator implements Validator {
 
+  private static final String DEFAULT_ERROR_MESSAGE = "The commit message doesn't match the validation pattern.";
   private static final RegExPatternMatcher matcher = new RegExPatternMatcher();
 
   @Override
@@ -59,7 +60,6 @@ public class CustomRegExValidator implements Validator {
     CustomRegExValidatorConfig configuration = context.getConfiguration(CustomRegExValidatorConfig.class);
     String commitBranch = context.getBranch();
     if (shouldValidateBranch(configuration, commitBranch) && isInvalidCommitMessage(configuration, commitMessage)) {
-      getErrorMessage(configuration);
       throw new InvalidCommitMessageException(
         ContextEntry.ContextBuilder.entity(context.getRepository()),
         getErrorMessage(configuration)
@@ -69,13 +69,13 @@ public class CustomRegExValidator implements Validator {
 
   private String getErrorMessage(CustomRegExValidatorConfig configuration) {
    if (Strings.isNullOrEmpty(configuration.getErrorMessage())) {
-     return "The commit message doesn't match the validation pattern.";
+     return DEFAULT_ERROR_MESSAGE;
    }
    return configuration.getErrorMessage();
   }
 
   private boolean shouldValidateBranch(CustomRegExValidatorConfig configuration, String commitBranch) {
-    if (Strings.isNullOrEmpty(commitBranch)) {
+    if (Strings.isNullOrEmpty(commitBranch) || Strings.isNullOrEmpty(configuration.getBranches())) {
       return true;
     }
     return Arrays

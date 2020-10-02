@@ -24,7 +24,9 @@
         "column": {
           "name": "Validator",
           "branches": "Branches",
-          "description": "Description"
+          "description": "Description",
+          "errorMessage": "Error message",
+          "deleteValidation": "Delete validation"
         }
       }
     }
@@ -33,7 +35,8 @@
     "CustomRegExValidator": {
       "name": "Custom regex validation",
       "branches": "{{ branches }}",
-      "description": "Validation pattern used: {{ pattern }}"
+      "description": "Pattern: {{ pattern }}",
+      "errorMessage": "{{ errorMessage }}"
     }
   },
   "validator": {
@@ -47,13 +50,11 @@
       },
       "branches": {
         "label": "Branches",
-        "helpText": "List of the branches which should be validated separated by comma. To validate all branches just set \"*\".\nExample: master,feature/*",
-        "errorMessage": "Please insert your branches."
+        "helpText": "List of the branches which should be validated separated by comma. Leave blank to validate all branches.\nExample: master,feature/*"
       },
       "errorMessage": {
         "label": "Error message",
-        "helpText": "Error which will be shown to the user on commit message validation failure.",
-        "errorMessage": "Please insert an error message."
+        "helpText": "Error which will be shown to the user on validation failure. If not set the default message will be shown."
       }
     }
   }

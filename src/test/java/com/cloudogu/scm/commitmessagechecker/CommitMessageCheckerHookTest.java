@@ -106,4 +106,25 @@ class CommitMessageCheckerHookTest {
     assertThat(context.getRepository()).isEqualTo(REPOSITORY);
     assertThat(context.getConfiguration()).isEqualTo(configuration);
   }
+
+  @Test
+  void shouldValidateChangesetWithoutBranches() {
+    Object configuration = new Object();
+    when(configurationProvider.evaluateConfiguration(REPOSITORY))
+      .thenReturn(Optional.of(new Configuration(true, ImmutableList.of(new Validation("TestValidator", configuration)))));
+    when(hookContext.getChangesetProvider()).thenReturn(hookChangesetBuilder);
+    Changeset changeset = new Changeset("1", 1L, null, "awesome commit");
+    when(hookChangesetBuilder.getChangesetList()).thenReturn(ImmutableList.of(changeset));
+    when(availableValidators.validatorOf("TestValidator")).thenReturn(validator);
+
+    PreReceiveRepositoryHookEvent event = new PreReceiveRepositoryHookEvent(new RepositoryHookEvent(hookContext, REPOSITORY, RepositoryHookType.PRE_RECEIVE));
+    hook.onEvent(event);
+
+    verify(validator).validate(contextCaptor.capture(), eq("awesome commit"));
+
+    Context context = contextCaptor.getValue();
+    assertThat(context.getBranch()).isEmpty();
+    assertThat(context.getRepository()).isEqualTo(REPOSITORY);
+    assertThat(context.getConfiguration()).isEqualTo(configuration);
+  }
 }

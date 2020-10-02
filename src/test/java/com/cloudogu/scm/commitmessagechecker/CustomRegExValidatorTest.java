@@ -56,4 +56,20 @@ class CustomRegExValidatorTest {
     assertThrows(InvalidCommitMessageException.class,
       () -> validator.validate(new Context(REPOSITORY, "feature/123", config), "invalid message 123!"));
   }
+
+  @Test
+  void shouldValidateWithoutBranchesConfigured() {
+    String regex = "^[A-Za-z ]+$";
+    CustomRegExValidatorConfig config = new CustomRegExValidatorConfig(regex, null, "it's gonna explode");
+    assertThrows(InvalidCommitMessageException.class,
+      () -> validator.validate(new Context(REPOSITORY, "feature/123", config), "invalid message 123!"));
+  }
+
+  @Test
+  void shouldValidateWithoutCommitBranch() {
+    String regex = "^[A-Za-z ]+$";
+    CustomRegExValidatorConfig config = new CustomRegExValidatorConfig(regex, "", "it's gonna explode");
+    assertThrows(InvalidCommitMessageException.class,
+      () -> validator.validate(new Context(REPOSITORY, "", config), "invalid message 123!"));
+  }
 }

@@ -40,41 +40,29 @@ const CustomRegExValidatorConfig: FC<ConfigProps> = ({ configurationChanged }) =
   const [pattern, setPattern] = useState<string | undefined>();
   const [branches, setBranches] = useState<string | undefined>();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
-  const [validationError, setValidationError] = useState({ pattern: false, branches: false, errorMessage: false });
+  const [patternValidationError, setPatternValidationError] = useState(false);
 
   useEffect(() => configurationChanged({ pattern, branches, errorMessage }, false), []);
 
   const onPatternChange = (value: string) => {
     setPattern(value);
     if (value?.trim()?.length > 0) {
-      setValidationError({ ...validationError, pattern: false });
+      setPatternValidationError(false);
       configurationChanged({ pattern: value, errorMessage, branches }, true);
     } else {
-      setValidationError({ ...validationError, pattern: true });
+      setPatternValidationError(true);
       configurationChanged({ pattern: undefined, errorMessage, branches }, false);
     }
   };
 
   const onBranchesChange = (value: string) => {
     setBranches(value);
-    if (value?.trim()?.length > 0) {
-      setValidationError({ ...validationError, branches: false });
-      configurationChanged({ branches: value, errorMessage, pattern }, true);
-    } else {
-      setValidationError({ ...validationError, branches: true });
-      configurationChanged({ branches: undefined, errorMessage, pattern }, false);
-    }
+    configurationChanged({ branches: value, errorMessage, pattern }, !!pattern);
   };
 
   const onErrorMessageChange = (value: string) => {
     setErrorMessage(value);
-    if (value?.trim()?.length > 0) {
-      setValidationError({ ...validationError, errorMessage: false });
-      configurationChanged({ errorMessage: value, branches, pattern }, true);
-    } else {
-      setValidationError({ ...validationError, errorMessage: true });
-      configurationChanged({ errorMessage: undefined, branches, pattern }, false);
-    }
+    configurationChanged({ errorMessage: value, branches, pattern }, !!pattern);
   };
 
   return (
@@ -83,7 +71,7 @@ const CustomRegExValidatorConfig: FC<ConfigProps> = ({ configurationChanged }) =
         value={pattern}
         label={t("validator.CustomRegExValidator.pattern.label")}
         helpText={t("validator.CustomRegExValidator.pattern.helpText")}
-        validationError={validationError.pattern}
+        validationError={patternValidationError}
         errorMessage={t("validator.CustomRegExValidator.pattern.errorMessage")}
         autofocus={true}
         onChange={onPatternChange}
@@ -92,16 +80,12 @@ const CustomRegExValidatorConfig: FC<ConfigProps> = ({ configurationChanged }) =
         value={branches}
         label={t("validator.CustomRegExValidator.branches.label")}
         helpText={t("validator.CustomRegExValidator.branches.helpText")}
-        validationError={validationError.branches}
-        errorMessage={t("validator.CustomRegExValidator.branches.errorMessage")}
         onChange={onBranchesChange}
       />
       <InputField
         value={errorMessage}
         label={t("validator.CustomRegExValidator.errorMessage.label")}
         helpText={t("validator.CustomRegExValidator.errorMessage.helpText")}
-        validationError={validationError.errorMessage}
-        errorMessage={t("validator.CustomRegExValidator.errorMessage.errorMessage")}
         onChange={onErrorMessageChange}
       />
     </>
