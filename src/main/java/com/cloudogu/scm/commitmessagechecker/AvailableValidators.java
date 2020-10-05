@@ -24,9 +24,6 @@
 
 package com.cloudogu.scm.commitmessagechecker;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableSet;
-
 import javax.inject.Inject;
 import java.util.Set;
 
@@ -37,12 +34,6 @@ public class AvailableValidators {
   @Inject
   public AvailableValidators(Set<Validator> validators) {
     this.validators = validators;
-  }
-
-  @SafeVarargs
-  @VisibleForTesting
-  static AvailableValidators of(Validator... validators) {
-    return new AvailableValidators(ImmutableSet.copyOf(validators));
   }
 
   public Validator validatorOf(String name) {
