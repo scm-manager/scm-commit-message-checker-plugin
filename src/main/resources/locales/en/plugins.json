@@ -30,6 +30,42 @@
       }
     }
   },
+  "permissions": {
+    "configuration": {
+      "read,write": {
+        "commitMessageChecker": {
+          "displayName": "Modify global commit message validation",
+          "description": "May modify the global commit message validation"
+        }
+      }
+    },
+    "repository": {
+      "readCommitMessageCheckerConfig": {
+        "*": {
+          "displayName": "Read repository-specific commit message validation",
+          "description": "May read the repository-specific commit message validation"
+        }
+      },
+      "writeCommitMessageCheckerConfig": {
+        "*": {
+          "displayName": "Modify repository-specific commit message validation",
+          "description": "May modify the repository-specific commit message validation"
+        }
+      }
+    }
+  },
+  "verbs": {
+    "repository": {
+      "readCommitMessageCheckerConfig": {
+        "displayName": "read commit message validation",
+        "description": "May read the commit message validation"
+      },
+      "writeCommitMessageCheckerConfig": {
+        "displayName": "modify commit message validation",
+        "description": "May modify commit message validation"
+      }
+    }
+  },
   "validation": {
     "CustomRegExValidator": {
       "name": "Custom regex validation",

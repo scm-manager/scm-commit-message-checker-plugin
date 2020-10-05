@@ -30,6 +30,42 @@
       }
     }
   },
+  "permissions": {
+    "configuration": {
+      "read,write": {
+        "commitMessageChecker": {
+          "displayName": "Globale Commit Nachricht Validierung ändern",
+          "description": "Darf die globale Commit Nachricht Validierung verändern"
+        }
+      }
+    },
+    "repository": {
+      "readCommitMessageCheckerConfig": {
+        "*": {
+          "displayName": "Repository-spezifische Commit Nachricht Validierung lesen",
+          "description": "Darf die repository-spezifische Commit Nachricht Validierung lesen"
+        }
+      },
+      "writeCommitMessageCheckerConfig": {
+        "*": {
+          "displayName": "Repository-spezifische Commit Nachricht Validierung ändern",
+          "description": "Darf die repository-spezifische Commit Nachricht Validierung verändern"
+        }
+      }
+    }
+  },
+  "verbs": {
+    "repository": {
+      "readCommitMessageCheckerConfig": {
+        "displayName": "Commit Nachricht Validierung lesen",
+        "description": "Darf die Commit Nachricht Validierung lesen"
+      },
+      "writeCommitMessageCheckerConfig": {
+        "displayName": "Commit Nachricht Validierung ändern",
+        "description": "Darf die Commit Nachricht Validierung verändern"
+      }
+    }
+  },
   "validation": {
     "CustomRegExValidator": {
       "name": "Eigene RegEx Validierung",

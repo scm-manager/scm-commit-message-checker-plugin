@@ -45,8 +45,4 @@ public class Validation {
   public Validation(String name) {
     this(name, null);
   }
-
-  static Validation of(Class<?> clazz) {
-    return new Validation(clazz.getSimpleName());
-  }
 }

@@ -74,6 +74,16 @@ class CommitMessageCheckerHookTest {
   @InjectMocks
   private CommitMessageCheckerHook hook;
 
+  @Test
+  void shouldNotValidateIfNoValidationsFound() {
+    when(configurationProvider.evaluateConfiguration(REPOSITORY))
+      .thenReturn(Optional.of(new Configuration(true, Collections.emptyList())));
+
+    PreReceiveRepositoryHookEvent event = new PreReceiveRepositoryHookEvent(new RepositoryHookEvent(hookContext, REPOSITORY, RepositoryHookType.PRE_RECEIVE));
+    hook.onEvent(event);
+
+    verify(availableValidators, never()).validatorOf(anyString());
+  }
 
   @Test
   void shouldNotValidateIfConfigurationIsDisabled() {

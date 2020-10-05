@@ -67,6 +67,11 @@ public class CommitMessageCheckerHook {
   }
 
   private void validate(HookContext context, Repository repository, List<Validation> validations) {
+    if (validations.isEmpty()) {
+      log.debug("No validations found");
+      return;
+    }
+
     for (Validation validation : validations) {
       Validator validator = availableValidators.validatorOf(validation.getName());
       for (Changeset changeset : context.getChangesetProvider().getChangesetList()) {

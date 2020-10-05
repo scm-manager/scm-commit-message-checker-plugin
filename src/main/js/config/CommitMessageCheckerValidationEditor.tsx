@@ -68,20 +68,24 @@ const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration,
   const [error, setError] = useState<Error | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
-  const availableValidatorsHref = (config._links.availableValidators as Link).href;
+  const availableValidatorsHref = (config?._links?.availableValidators as Link)?.href;
 
   useEffect(() => {
-    setLoading(true);
-    apiClient
-      .get(availableValidatorsHref)
-      .then(r => r.json() as Promise<AvailableValidators>)
-      .then(body => body.validators)
-      .then(setAvailableValidators)
-      .then(() => setLoading(false))
-      .catch(err => {
-        setError(err);
-        setLoading(false);
-      });
+    if (availableValidatorsHref) {
+      setLoading(true);
+      apiClient
+        .get(availableValidatorsHref)
+        .then(r => r.json() as Promise<AvailableValidators>)
+        .then(body => body.validators)
+        .then(setAvailableValidators)
+        .then(() => setLoading(false))
+        .catch(err => {
+          setError(err);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
   }, [availableValidatorsHref]);
 
   useEffect(() => {
@@ -118,13 +122,16 @@ const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration,
           availableValidator.applicableMultipleTimes ||
           !config.validations.find(v => v.name === availableValidator.name)
       )
-      // .sort((a, b) => bySortKey(a.name, b.name, t.bind(t))) //TODO Do we need a sort?
       .map(validator => ({ label: t(`validator.${validator.name}.name`), value: validator.name }))
   ];
 
   const renderAddValidationForm = () => {
     if (loading) {
       return <Loading />;
+    }
+
+    if (availableValidators.length === 0) {
+      return null;
     }
 
     return (
