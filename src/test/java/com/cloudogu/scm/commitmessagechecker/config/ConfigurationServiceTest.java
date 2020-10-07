@@ -81,7 +81,7 @@ class ConfigurationServiceTest {
     ConfigurationDto repositoryConfiguration = service.getRepositoryConfiguration(REPOSITORY.getNamespace(), REPOSITORY.getName());
 
     assertThat(repositoryConfiguration.isEnabled()).isFalse();
-    assertThat(repositoryConfiguration.getValidations()).isEmpty();
+    assertThat(repositoryConfiguration.getValidations()).isNullOrEmpty();
   }
 
   @Test
@@ -120,7 +120,7 @@ class ConfigurationServiceTest {
     GlobalConfigurationDto repositoryConfiguration = service.getGlobalConfiguration();
 
     assertThat(repositoryConfiguration.isEnabled()).isFalse();
-    assertThat(repositoryConfiguration.getValidations()).isEmpty();
+    assertThat(repositoryConfiguration.getValidations()).isNullOrEmpty();
   }
 
   @Test

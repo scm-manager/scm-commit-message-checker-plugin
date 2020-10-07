@@ -40,6 +40,7 @@ import sonia.scm.api.v2.resources.ErrorDto;
 import sonia.scm.api.v2.resources.LinkBuilder;
 import sonia.scm.web.VndMediaType;
 
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -92,7 +93,7 @@ public class ConfigurationResource {
       schema = @Schema(implementation = ErrorDto.class)
     )
   )
-  public Response updateConfiguration(@PathParam("namespace") String namespace, @PathParam("name") String name, ConfigurationDto updatedConfig) {
+  public Response updateConfiguration(@PathParam("namespace") String namespace, @PathParam("name") String name, @Valid ConfigurationDto updatedConfig) {
     configurationService.updateRepositoryConfiguration(namespace, name, updatedConfig);
     return Response.noContent().build();
   }
@@ -155,7 +156,7 @@ public class ConfigurationResource {
       schema = @Schema(implementation = ErrorDto.class)
     )
   )
-  public Response updateGlobalConfiguration(GlobalConfigurationDto updatedConfig) {
+  public Response updateGlobalConfiguration(@Valid GlobalConfigurationDto updatedConfig) {
     configurationService.updateGlobalConfiguration(updatedConfig);
     return Response.noContent().build();
   }

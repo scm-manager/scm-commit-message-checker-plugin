@@ -25,9 +25,12 @@ import React, { FC } from "react";
 import { Subtitle, Configuration } from "@scm-manager/ui-components";
 import { useTranslation } from "react-i18next";
 import CommitMessageCheckerValidationEditor from "./CommitMessageCheckerValidationEditor";
+import { CommitMessageCheckerConfiguration } from "../types";
 
 type Props = {
   link: string;
+  initialConfiguration: CommitMessageCheckerConfiguration;
+  onConfigurationChange: (config: CommitMessageCheckerConfiguration, valid: boolean) => void
 };
 
 const CommitMessageCheckerGlobalConfig: FC<Props> = ({ link }) => {

@@ -23,16 +23,33 @@
  */
 package com.cloudogu.scm.commitmessagechecker;
 
-import lombok.Value;
-import sonia.scm.repository.Repository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Answers;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@Value
-public class Context {
-  private Repository repository;
-  private String branch;
-  private Object configuration;
+import javax.validation.ConstraintValidatorContext;
 
-  public <C> C getConfiguration(Class<C> configurationType) {
-    return configurationType.cast(configuration);
+import static org.assertj.core.api.Assertions.assertThat;
+
+@ExtendWith(MockitoExtension.class)
+class RegExValidatorTest {
+
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private ConstraintValidatorContext constraintValidatorContext;
+
+  private final RegExValidator validator = new RegExValidator();
+
+  @Test
+  void valid() {
+    boolean valid = validator.isValid("^[A-Z ]$", constraintValidatorContext);
+    assertThat(valid).isTrue();
+  }
+
+  @Test
+  void invalid() {
+    boolean valid = validator.isValid("^[[$", constraintValidatorContext);
+    assertThat(valid).isFalse();
   }
 }

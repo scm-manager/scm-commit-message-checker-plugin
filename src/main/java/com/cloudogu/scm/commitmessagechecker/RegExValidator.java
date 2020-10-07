@@ -23,16 +23,29 @@
  */
 package com.cloudogu.scm.commitmessagechecker;
 
-import lombok.Value;
-import sonia.scm.repository.Repository;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
-@Value
-public class Context {
-  private Repository repository;
-  private String branch;
-  private Object configuration;
+public class RegExValidator implements ConstraintValidator<RegEx, String> {
 
-  public <C> C getConfiguration(Class<C> configurationType) {
-    return configurationType.cast(configuration);
+  @Override
+  public void initialize(RegEx constraintAnnotation) {
+    // do nothing since we don't need this
+  }
+
+  @Override
+  public boolean isValid(String object, ConstraintValidatorContext constraintContext) {
+    if (object == null || object.isEmpty()) {
+      return false;
+    }
+    try {
+      Pattern.compile(object);
+      return true;
+    } catch (PatternSyntaxException e) {
+      constraintContext.buildConstraintViolationWithTemplate(e.getMessage()).addConstraintViolation();
+      return false;
+    }
   }
 }

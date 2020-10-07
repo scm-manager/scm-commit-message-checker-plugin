@@ -82,7 +82,7 @@ class CommitMessageCheckerHookTest {
     PreReceiveRepositoryHookEvent event = new PreReceiveRepositoryHookEvent(new RepositoryHookEvent(hookContext, REPOSITORY, RepositoryHookType.PRE_RECEIVE));
     hook.onEvent(event);
 
-    verify(availableValidators, never()).validatorOf(anyString());
+    verify(availableValidators, never()).validatorFor(anyString());
   }
 
   @Test
@@ -92,7 +92,7 @@ class CommitMessageCheckerHookTest {
     PreReceiveRepositoryHookEvent event = new PreReceiveRepositoryHookEvent(new RepositoryHookEvent(hookContext, REPOSITORY, RepositoryHookType.PRE_RECEIVE));
     hook.onEvent(event);
 
-    verify(availableValidators, never()).validatorOf(anyString());
+    verify(availableValidators, never()).validatorFor(anyString());
   }
 
   @Test
@@ -104,7 +104,7 @@ class CommitMessageCheckerHookTest {
     Changeset changeset = new Changeset("1", 1L, null, "awesome commit");
     changeset.setBranches(ImmutableList.of("master"));
     when(hookChangesetBuilder.getChangesetList()).thenReturn(ImmutableList.of(changeset));
-    when(availableValidators.validatorOf("TestValidator")).thenReturn(validator);
+    when(availableValidators.validatorFor("TestValidator")).thenReturn(validator);
 
     PreReceiveRepositoryHookEvent event = new PreReceiveRepositoryHookEvent(new RepositoryHookEvent(hookContext, REPOSITORY, RepositoryHookType.PRE_RECEIVE));
     hook.onEvent(event);
@@ -125,7 +125,7 @@ class CommitMessageCheckerHookTest {
     when(hookContext.getChangesetProvider()).thenReturn(hookChangesetBuilder);
     Changeset changeset = new Changeset("1", 1L, null, "awesome commit");
     when(hookChangesetBuilder.getChangesetList()).thenReturn(ImmutableList.of(changeset));
-    when(availableValidators.validatorOf("TestValidator")).thenReturn(validator);
+    when(availableValidators.validatorFor("TestValidator")).thenReturn(validator);
 
     PreReceiveRepositoryHookEvent event = new PreReceiveRepositoryHookEvent(new RepositoryHookEvent(hookContext, REPOSITORY, RepositoryHookType.PRE_RECEIVE));
     hook.onEvent(event);

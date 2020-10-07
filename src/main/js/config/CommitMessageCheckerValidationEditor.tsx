@@ -181,12 +181,9 @@ const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration,
     setValidatorConfigurationValid(valid);
   };
 
-  if (error) {
-    return <ErrorNotification error={error} />;
-  }
-
   return (
     <>
+      {error && <ErrorNotification error={error} />}
       <div className="columns is-multiline">
         {disableRepositoryConfigurationCheckbox}
         {enabledCheckbox}

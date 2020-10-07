@@ -36,7 +36,7 @@ public class AvailableValidators {
     this.validators = validators;
   }
 
-  public Validator validatorOf(String name) {
+  public Validator validatorFor(String name) {
     return validators.stream()
       .filter(validator -> validator.getClass().getSimpleName().equals(name))
       .findFirst()

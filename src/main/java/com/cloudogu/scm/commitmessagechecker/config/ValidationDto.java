@@ -28,9 +28,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @Setter
 public class ValidationDto {
+  @NotEmpty
   private String name;
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private JsonNode configuration;

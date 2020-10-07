@@ -37,14 +37,14 @@ class AvailableValidatorsTest {
 
   @Test
   void shouldGetValidatorByName() {
-    Validator validator = availableValidators.validatorOf("TestValidator");
+    Validator validator = availableValidators.validatorFor("TestValidator");
 
     assertThat(validator).isInstanceOf(TestValidator.class);
   }
 
   @Test
   void shouldThrowUnknownValidatorException() {
-    assertThrows(UnknownValidatorException.class, () -> availableValidators.validatorOf("Unknown"));
+    assertThrows(UnknownValidatorException.class, () -> availableValidators.validatorFor("Unknown"));
   }
 
   @Test

@@ -83,7 +83,7 @@ class ConfigurationResourceTest {
     dispatcher.invoke(request, response);
 
     assertThat(response.getStatus()).isEqualTo(200);
-    assertThat(response.getContentAsString()).isEqualTo("{\"enabled\":false,\"validations\":[],\"disableRepositoryConfiguration\":false}");
+    assertThat(response.getContentAsString()).isEqualTo("{\"enabled\":false,\"validations\":null,\"disableRepositoryConfiguration\":false}");
   }
 
   @Test
@@ -106,7 +106,7 @@ class ConfigurationResourceTest {
     dispatcher.invoke(request, response);
 
     assertThat(response.getStatus()).isEqualTo(200);
-    assertThat(response.getContentAsString()).isEqualTo("{\"enabled\":false,\"validations\":[]}");
+    assertThat(response.getContentAsString()).isEqualTo("{\"enabled\":false,\"validations\":null}");
   }
 
   @Test

@@ -28,8 +28,6 @@ import com.cloudogu.scm.commitmessagechecker.Context;
 import com.cloudogu.scm.commitmessagechecker.Validator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.TextNode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -138,7 +136,7 @@ class ConfigurationMapperTest {
 
     assertThat(globalConfiguration.isDisableRepositoryConfiguration()).isFalse();
     assertThat(globalConfiguration.isEnabled()).isFalse();
-    assertThat(globalConfiguration.getValidations()).isEmpty();
+    assertThat(globalConfiguration.getValidations()).isNullOrEmpty();
   }
 
   @Test
@@ -187,14 +185,14 @@ class ConfigurationMapperTest {
     ConfigurationDto dto = new ConfigurationDto();
     Configuration configuration = mapper.map(dto);
 
-    assertThat(configuration.getValidations()).isEmpty();
+    assertThat(configuration.getValidations()).isNullOrEmpty();
     assertThat(configuration.isEnabled()).isFalse();
   }
 
   @Test
   void shouldMapValidation() {
     String validatorName = "mock";
-    when(availableValidators.validatorOf(validatorName)).thenReturn(new SimpleValidator());
+    when(availableValidators.validatorFor(validatorName)).thenReturn(new SimpleValidator());
 
     Validation validation = new Validation(validatorName);
     ValidationDto dto = mapper.map(validation);
@@ -205,7 +203,7 @@ class ConfigurationMapperTest {
   @Test
   void shouldMapComplexValidation() {
     String validatorName = "complex";
-    when(availableValidators.validatorOf(validatorName)).thenReturn(new ConfiguredValidator());
+    when(availableValidators.validatorFor(validatorName)).thenReturn(new ConfiguredValidator());
 
     Validation validation = new Validation(validatorName);
     validation.setConfiguration(new ConfiguredValidatorConfig("abc", "master,develop"));
@@ -218,7 +216,7 @@ class ConfigurationMapperTest {
   @Test
   void shouldMapValidationDto() {
     String validatorName = "mock";
-    when(availableValidators.validatorOf(validatorName)).thenReturn(new SimpleValidator());
+    when(availableValidators.validatorFor(validatorName)).thenReturn(new SimpleValidator());
 
     ValidationDto dto = new ValidationDto();
     dto.setName(validatorName);
@@ -230,7 +228,7 @@ class ConfigurationMapperTest {
   @Test
   void shouldMapComplexValidationDto() throws JsonProcessingException {
     String validatorName = "mock";
-    when(availableValidators.validatorOf(validatorName)).thenReturn(new ConfiguredValidator());
+    when(availableValidators.validatorFor(validatorName)).thenReturn(new ConfiguredValidator());
 
     ValidationDto dto = new ValidationDto();
     dto.setName(validatorName);
@@ -246,7 +244,7 @@ class ConfigurationMapperTest {
   @Test
   void shouldFailOnMapComplexValidationDto() throws JsonProcessingException {
     String validatorName = "mock";
-    when(availableValidators.validatorOf(validatorName)).thenReturn(new ConfiguredValidator());
+    when(availableValidators.validatorFor(validatorName)).thenReturn(new ConfiguredValidator());
     doThrow(new ConstraintViolationException("violations", null)).when(configurationValidator).validate(any());
 
     ValidationDto dto = new ValidationDto();

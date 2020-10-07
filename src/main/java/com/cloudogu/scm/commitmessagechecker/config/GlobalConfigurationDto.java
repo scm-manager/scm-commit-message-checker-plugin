@@ -23,7 +23,6 @@
  */
 package com.cloudogu.scm.commitmessagechecker.config;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

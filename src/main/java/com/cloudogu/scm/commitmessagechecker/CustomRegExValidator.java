@@ -28,22 +28,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.shiro.util.RegExPatternMatcher;
 import sonia.scm.ContextEntry;
 import sonia.scm.plugin.Extension;
 import sonia.scm.util.GlobUtil;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Extension
 public class CustomRegExValidator implements Validator {
 
   private static final String DEFAULT_ERROR_MESSAGE = "The commit message doesn't match the validation pattern.";
-  private static final RegExPatternMatcher matcher = new RegExPatternMatcher();
 
   @Override
   public boolean isApplicableMultipleTimes() {
@@ -84,7 +82,7 @@ public class CustomRegExValidator implements Validator {
   }
 
   private boolean isInvalidCommitMessage(CustomRegExValidatorConfig configuration, String commitMessage) {
-    return !matcher.matches(configuration.getPattern(), commitMessage);
+    return !Pattern.matches(configuration.getPattern(), commitMessage);
   }
 
   @AllArgsConstructor
@@ -93,8 +91,8 @@ public class CustomRegExValidator implements Validator {
   @Setter
   @XmlRootElement
   static class CustomRegExValidatorConfig {
-    @NotNull
-    @NotBlank
+    @NotEmpty
+    @RegEx
     private String pattern;
     private String branches;
     private String errorMessage;

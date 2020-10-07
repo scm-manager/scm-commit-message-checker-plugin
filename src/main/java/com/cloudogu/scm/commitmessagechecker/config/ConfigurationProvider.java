@@ -46,8 +46,10 @@ public class ConfigurationProvider {
     Configuration repoConfig = configStore.getConfiguration(repository);
 
     if (!globalConfiguration.isDisableRepositoryConfiguration() && repoConfig.isEnabled()) {
+      LOG.debug("Using commit-message-checker configuration from repository: {}", repository.getNamespaceAndName());
       return Optional.of(repoConfig);
     } else if (globalConfiguration.isEnabled()) {
+      LOG.debug("Using global commit-message-checker configuration.");
       return Optional.of(globalConfiguration);
     } else {
       LOG.debug("No configuration for commit-message-checker exist.");

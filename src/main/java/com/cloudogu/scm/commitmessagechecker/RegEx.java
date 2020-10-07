@@ -23,16 +23,26 @@
  */
 package com.cloudogu.scm.commitmessagechecker;
 
-import lombok.Value;
-import sonia.scm.repository.Repository;
+import javax.validation.Constraint;
+import javax.validation.Payload;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-@Value
-public class Context {
-  private Repository repository;
-  private String branch;
-  private Object configuration;
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-  public <C> C getConfiguration(Class<C> configurationType) {
-    return configurationType.cast(configuration);
-  }
+@Target({FIELD, METHOD, PARAMETER, ANNOTATION_TYPE})
+@Retention(RUNTIME)
+@Constraint(validatedBy = RegExValidator.class)
+@Documented
+public @interface RegEx {
+  String message() default "expression must be a valid regular expression";
+
+  Class<?>[] groups() default {};
+
+  Class<? extends Payload>[] payload() default {};
 }

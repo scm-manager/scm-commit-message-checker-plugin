@@ -23,7 +23,6 @@
  */
 package com.cloudogu.scm.commitmessagechecker;
 
-import com.cloudogu.scm.commitmessagechecker.config.Configuration;
 import com.cloudogu.scm.commitmessagechecker.config.ConfigurationProvider;
 import com.cloudogu.scm.commitmessagechecker.config.Validation;
 import com.github.legman.Subscribe;
@@ -37,7 +36,6 @@ import sonia.scm.repository.api.HookContext;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Extension
@@ -57,13 +55,12 @@ public class CommitMessageCheckerHook {
   public void onEvent(PreReceiveRepositoryHookEvent event) {
     HookContext context = event.getContext();
 
-    Optional<Configuration> optionalConfiguration = configurationProvider.evaluateConfiguration(event.getRepository());
-    if (optionalConfiguration.isPresent()) {
-      Configuration configuration = optionalConfiguration.get();
-      List<Validation> validations = configuration.getValidations();
-
-      validate(context, event.getRepository(), validations);
-    }
+    configurationProvider.evaluateConfiguration(event.getRepository())
+      .ifPresent(
+        configuration -> {
+          List<Validation> validations = configuration.getValidations();
+          validate(context, event.getRepository(), validations);
+        });
   }
 
   private void validate(HookContext context, Repository repository, List<Validation> validations) {
@@ -73,7 +70,7 @@ public class CommitMessageCheckerHook {
     }
 
     for (Validation validation : validations) {
-      Validator validator = availableValidators.validatorOf(validation.getName());
+      Validator validator = availableValidators.validatorFor(validation.getName());
       for (Changeset changeset : context.getChangesetProvider().getChangesetList()) {
         if (!changeset.getBranches().isEmpty()) {
           for (String branch : changeset.getBranches()) {

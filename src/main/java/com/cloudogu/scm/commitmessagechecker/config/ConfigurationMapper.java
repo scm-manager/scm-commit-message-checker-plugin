@@ -74,7 +74,7 @@ public abstract class ConfigurationMapper extends BaseMapper {
   ValidationDto map(Validation validation) {
     ValidationDto dto = new ValidationDto();
     dto.setName(validation.getName());
-    Validator validator = availableValidators.validatorOf(validation.getName());
+    Validator validator = availableValidators.validatorFor(validation.getName());
     if (validator.getConfigurationType().isPresent()) {
       dto.setConfiguration(new ObjectMapper().valueToTree(validation.getConfiguration()));
     }
@@ -83,7 +83,7 @@ public abstract class ConfigurationMapper extends BaseMapper {
 
   Validation map(ValidationDto dto) {
     Validation validation = new Validation();
-    Validator validator = availableValidators.validatorOf(dto.getName());
+    Validator validator = availableValidators.validatorFor(dto.getName());
     validation.setName(dto.getName());
     validator.getConfigurationType()
       .ifPresent(configurationType -> validation.setConfiguration(parseConfiguration(dto, validator, configurationType)));

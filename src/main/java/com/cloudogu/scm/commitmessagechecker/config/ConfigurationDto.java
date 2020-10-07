@@ -30,7 +30,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
 
 @NoArgsConstructor
@@ -40,7 +40,8 @@ import java.util.List;
 @SuppressWarnings("java:S2160") // we do not use equals and hashcode on dto
 public class ConfigurationDto extends HalRepresentation {
   private boolean enabled;
-  private List<ValidationDto> validations = new ArrayList<>();
+  @Valid
+  private List<ValidationDto> validations;
 
   @Override
   @SuppressWarnings("squid:S1185") // We want to have this method available in this package

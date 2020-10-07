@@ -30,6 +30,7 @@ import sonia.scm.repository.RepositoryTestData;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+
 class CustomRegExValidatorTest {
 
   private static final Repository REPOSITORY = RepositoryTestData.createHeartOfGold();

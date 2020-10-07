@@ -106,7 +106,7 @@ class ConfigStoreTest {
 
   @Test
   void shouldGetAllGlobalValidations() {
-    when(availableValidators.validatorOf("TestValidator")).thenReturn(new TestValidator());
+    when(availableValidators.validatorFor("TestValidator")).thenReturn(new TestValidator());
     GlobalConfiguration globalConfiguration = new GlobalConfiguration(true, ImmutableList.of(new Validation("TestValidator", new TestValidatorConfig("abc"))), true);
     configStore.setGlobalConfiguration(globalConfiguration);
     List<ConfigStore.ValidatorInstance> globalValidations = configStore.getGlobalValidations();
@@ -118,7 +118,7 @@ class ConfigStoreTest {
 
   @Test
   void shouldGetAllValidationsForRepository() {
-    when(availableValidators.validatorOf("TestValidator")).thenReturn(new TestValidator());
+    when(availableValidators.validatorFor("TestValidator")).thenReturn(new TestValidator());
     Configuration configuration = new Configuration(true, ImmutableList.of(new Validation("TestValidator", new TestValidatorConfig("abc"))));
     configStore.setConfiguration(REPOSITORY, configuration);
     List<ConfigStore.ValidatorInstance> repoValidations = configStore.getValidations(REPOSITORY);

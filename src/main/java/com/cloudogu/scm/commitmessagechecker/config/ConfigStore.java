@@ -112,7 +112,7 @@ public class ConfigStore {
   }
 
   private ValidatorInstance createValidatorInstance(Validation validation) {
-    Validator validator = availableValidators.validatorOf(validation.getName());
+    Validator validator = availableValidators.validatorFor(validation.getName());
     Object configuration = validation.getConfiguration();
     return new ValidatorInstance(validator, configuration);
   }

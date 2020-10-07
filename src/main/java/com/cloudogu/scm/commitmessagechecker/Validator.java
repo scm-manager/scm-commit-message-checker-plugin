@@ -56,6 +56,8 @@ public interface Validator {
    * Implement this method to describe the concrete logic of your {@link Validator}.
    *
    * If the {@link Validator} is configurable, the {@link Validation}'s configuration is passed as part of the context.
+   *
+   * @throws InvalidCommitMessageException whenever the commit message does not pass this validator.
    */
   void validate(Context context, String commitMessage);
 }
