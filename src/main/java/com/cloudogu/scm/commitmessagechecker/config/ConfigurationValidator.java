@@ -22,24 +22,22 @@
  * SOFTWARE.
  */
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
-import CustomRegExValidatorConfig from "./CustomRegExValidatorConfig";
-import { binder } from "@scm-manager/ui-extensions";
+package com.cloudogu.scm.commitmessagechecker.config;
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.util.Set;
 
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
-
-binder.bind("commitMessageChecker.validator.CustomRegExValidator", CustomRegExValidatorConfig);
+public class ConfigurationValidator {
+  void validate(Object configuration) {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<Object>> violations = validator.validate(configuration);
+    if (!violations.isEmpty()) {
+      throw new ConstraintViolationException(violations);
+    }
+  }
+}

@@ -21,25 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.cloudogu.scm.commitmessagechecker.config;
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
-import CustomRegExValidatorConfig from "./CustomRegExValidatorConfig";
-import { binder } from "@scm-manager/ui-extensions";
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.junit.jupiter.api.Test;
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
+import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-binder.bind("commitMessageChecker.validator.CustomRegExValidator", CustomRegExValidatorConfig);
+class ConfigurationValidatorTest {
+
+  ConfigurationValidator validator = new ConfigurationValidator();
+
+  @Test
+  void shouldSuccessfullyValidate() {
+    validator.validate(new ValidatorConfig("abc", "master"));
+  }
+
+  @Test
+  void validationShouldFail() {
+    assertThrows(ConstraintViolationException.class, () -> validator.validate(new ValidatorConfig(null, "")));
+  }
+
+  @AllArgsConstructor
+  @Getter
+  static class ValidatorConfig {
+    @NotNull
+    private final String pattern;
+    @NotBlank
+    private final String branches;
+  }
+
+}

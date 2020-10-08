@@ -21,25 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.cloudogu.scm.commitmessagechecker.config;
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
-import CustomRegExValidatorConfig from "./CustomRegExValidatorConfig";
-import { binder } from "@scm-manager/ui-extensions";
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
-
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
-
-binder.bind("commitMessageChecker.validator.CustomRegExValidator", CustomRegExValidatorConfig);
+@NoArgsConstructor
+@Getter
+@Setter
+@SuppressWarnings("java:S2160") // we do not use equals and hashcode on dto
+public class GlobalConfigurationDto extends ConfigurationDto {
+  private boolean disableRepositoryConfiguration;
+}

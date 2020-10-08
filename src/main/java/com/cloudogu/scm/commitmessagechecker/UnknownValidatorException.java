@@ -22,24 +22,10 @@
  * SOFTWARE.
  */
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
-import CustomRegExValidatorConfig from "./CustomRegExValidatorConfig";
-import { binder } from "@scm-manager/ui-extensions";
+package com.cloudogu.scm.commitmessagechecker;
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
-
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
-
-binder.bind("commitMessageChecker.validator.CustomRegExValidator", CustomRegExValidatorConfig);
+public class UnknownValidatorException extends RuntimeException {
+  public UnknownValidatorException(String message) {
+    super(message);
+  }
+}

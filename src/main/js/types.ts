@@ -21,25 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { Links } from "@scm-manager/ui-types";
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
-import CustomRegExValidatorConfig from "./CustomRegExValidatorConfig";
-import { binder } from "@scm-manager/ui-extensions";
+export type CommitMessageCheckerConfiguration = {
+  disableRepositoryConfiguration?: boolean;
+  enabled: boolean;
+  validations: Validation[];
+  _links: Links;
+};
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
+export type Validation = {
+  name: string;
+  configuration: any;
+};
 
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
+export type AvailableValidators = {
+  validators: Validator[];
+};
 
-binder.bind("commitMessageChecker.validator.CustomRegExValidator", CustomRegExValidatorConfig);
+export type Validator = {
+  name: string;
+  applicableMultipleTimes: boolean;
+};

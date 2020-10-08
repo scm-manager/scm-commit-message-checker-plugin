@@ -21,25 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.cloudogu.scm.commitmessagechecker;
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
-import CustomRegExValidatorConfig from "./CustomRegExValidatorConfig";
-import { binder } from "@scm-manager/ui-extensions";
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Answers;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
+import javax.validation.ConstraintValidatorContext;
 
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
+import static org.assertj.core.api.Assertions.assertThat;
 
-binder.bind("commitMessageChecker.validator.CustomRegExValidator", CustomRegExValidatorConfig);
+@ExtendWith(MockitoExtension.class)
+class RegExValidatorTest {
+
+  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+  private ConstraintValidatorContext constraintValidatorContext;
+
+  private final RegExValidator validator = new RegExValidator();
+
+  @Test
+  void valid() {
+    boolean valid = validator.isValid("^[A-Z ]$", constraintValidatorContext);
+    assertThat(valid).isTrue();
+  }
+
+  @Test
+  void invalid() {
+    boolean valid = validator.isValid("^[[$", constraintValidatorContext);
+    assertThat(valid).isFalse();
+  }
+}

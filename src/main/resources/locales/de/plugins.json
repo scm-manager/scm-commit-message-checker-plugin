@@ -1,5 +1,104 @@
 {
   "scm-commit-message-checker-plugin": {
-
+    "config": {
+      "link": "Commit Nachricht Validierung",
+      "title": "Commit Nachricht Validierung",
+      "enabled": {
+        "label": "Commit Nachricht Validierung aktivieren",
+        "helpText": "Wenn aktiv, wird jede neue Commit Nachricht validiert. Ungültige Commits werden blockiert."
+      },
+      "disableRepositoryConfiguration": {
+        "label": "Commit Nachricht Validierungen nicht für einzelne Repositories konfigurierbar machen.",
+        "helpText": "Es können keine individuellen Commit Validierungen in Repositories angelegt werden."
+      },
+      "noValidationsConfigured": "Es wurden noch keine Validierungen angelegt.",
+      "newValidation": {
+        "label": "Neue Validierung hinzufügen",
+        "helpText": "Alle Validierungen für jeden betroffenen Commit ausgeführt."
+      },
+      "addValidation": {
+        "label": "Validierung hinzufügen"
+      },
+      "validationTable": {
+        "column": {
+          "name": "Validator",
+          "branches": "Branches",
+          "description": "Description",
+          "errorMessage": "Fehlermeldung",
+          "deleteValidation": "Validierung löschen"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "configuration": {
+      "read,write": {
+        "commitMessageChecker": {
+          "displayName": "Globale Commit Nachricht Validierung ändern",
+          "description": "Darf die globale Commit Nachricht Validierung verändern"
+        }
+      }
+    },
+    "repository": {
+      "readCommitMessageCheckerConfig": {
+        "*": {
+          "displayName": "Repository-spezifische Commit Nachricht Validierung lesen",
+          "description": "Darf die repository-spezifische Commit Nachricht Validierung lesen"
+        }
+      },
+      "writeCommitMessageCheckerConfig": {
+        "*": {
+          "displayName": "Repository-spezifische Commit Nachricht Validierung ändern",
+          "description": "Darf die repository-spezifische Commit Nachricht Validierung verändern"
+        }
+      }
+    }
+  },
+  "verbs": {
+    "repository": {
+      "readCommitMessageCheckerConfig": {
+        "displayName": "Commit Nachricht Validierung lesen",
+        "description": "Darf die Commit Nachricht Validierung lesen"
+      },
+      "writeCommitMessageCheckerConfig": {
+        "displayName": "Commit Nachricht Validierung ändern",
+        "description": "Darf die Commit Nachricht Validierung verändern"
+      }
+    }
+  },
+  "validation": {
+    "CustomRegExValidator": {
+      "name": "Eigene RegEx Validierung",
+      "branches": "{{ branches }}",
+      "allBranches": "<Alle Branches>",
+      "description": "Muster: {{ pattern }}",
+      "errorMessage": "{{ errorMessage }}",
+      "defaultErrorMessage": "<Standard-Fehlermeldung>"
+    }
+  },
+  "validator": {
+    "CustomRegExValidator": {
+      "name": "Benutzerdefinierter RegEx Validator",
+      "description": "Eigenen regulären Ausdruck für Validierung angeben.",
+      "pattern": {
+        "label": "Muster",
+        "helpText": "Eigener regulärer Ausdruck für Validierung.\nBeispiel: ^[A-Za-z0-9]+$",
+        "errorMessage": "Bitte ein gültiges Muster angeben."
+      },
+      "branches": {
+        "label": "Branches",
+        "helpText": "Komma-separierte Liste der zu validierenden Branches. Leer lassen um alle Branches zu validieren.\nBeispiel: master,feature/*"
+      },
+      "errorMessage": {
+        "label": "Fehlermeldung",
+        "helpText": "Die Fehlermeldung, welche dem Benutzer bei einer ungültigen Commit Nachricht angezeigt wird. Wird keine gesetzt, wird die Standard-Fehlermeldung angezeigt."
+      }
+    }
+  },
+  "errors": {
+    "4wSBxkux01": {
+      "displayName": "Ungültige Konfiguration",
+      "description": "Die gespeicherte Konfiguration ist ungültig. Bitte prüfen Sie Ihre Eingaben."
+    }
   }
 }

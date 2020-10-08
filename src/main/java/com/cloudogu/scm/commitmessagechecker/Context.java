@@ -21,21 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package com.cloudogu.scm.commitmessagechecker;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import lombok.Value;
+import sonia.scm.repository.Repository;
 
-@Path("v2/sample")
-class SampleResource {
+@Value
+public class Context {
+  private Repository repository;
+  private String branch;
+  private Object configuration;
 
-  @GET
-  @Produces(MediaType.TEXT_PLAIN)
-  public String sample() {
-    return "Sample";
+  public <C> C getConfiguration(Class<C> configurationType) {
+    return configurationType.cast(configuration);
   }
-
 }

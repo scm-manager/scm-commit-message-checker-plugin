@@ -22,24 +22,33 @@
  * SOFTWARE.
  */
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
-import CustomRegExValidatorConfig from "./CustomRegExValidatorConfig";
-import { binder } from "@scm-manager/ui-extensions";
+package com.cloudogu.scm.commitmessagechecker;
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
+import javax.inject.Inject;
+import java.util.Set;
 
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
+public class AvailableValidators {
 
-binder.bind("commitMessageChecker.validator.CustomRegExValidator", CustomRegExValidatorConfig);
+  private final Set<Validator> validators;
+
+  @Inject
+  public AvailableValidators(Set<Validator> validators) {
+    this.validators = validators;
+  }
+
+  public Validator validatorFor(String name) {
+    return validators.stream()
+      .filter(validator -> validator.getClass().getSimpleName().equals(name))
+      .findFirst()
+      .orElseThrow(() -> new UnknownValidatorException(name));
+  }
+
+  public static String nameOf(Validator validator) {
+    return nameOf(validator.getClass());
+  }
+
+  public static String nameOf(Class<? extends Validator> validatorClass) {
+    return validatorClass.getSimpleName();
+  }
+
+}

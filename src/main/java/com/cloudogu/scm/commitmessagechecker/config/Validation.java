@@ -21,11 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.cloudogu.scm.commitmessagechecker.config;
 
-describe("frontend unit tests", () => {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-  it("some test", () => {
-    expect( 21 * 2 ).toBe(42);
-  });
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-});
+@XmlAccessorType(XmlAccessType.FIELD)
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Validation {
+  String name;
+  @XmlJavaTypeAdapter(XmlConfiguration.ValidationConfigurationXmlAdapter.class)
+  Object configuration;
+
+  public Validation(String name) {
+    this(name, null);
+  }
+}

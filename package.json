@@ -4,6 +4,7 @@
   "version": "1.0.0-SNAPSHOT",
   "license": "MIT",
   "main": "./src/main/js/index.tsx",
+  "author": "Eduard Heimbuch <eduard.heimbuch@cloudogu.com>",
   "scripts": {
     "build": "ui-scripts plugin",
     "watch": "ui-scripts plugin-watch",

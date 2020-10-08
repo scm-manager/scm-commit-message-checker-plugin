@@ -21,25 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.cloudogu.scm.commitmessagechecker;
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
-import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
-import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
-import CustomRegExValidatorConfig from "./CustomRegExValidatorConfig";
-import { binder } from "@scm-manager/ui-extensions";
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
-cfgBinder.bindRepositorySetting(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerRepositoryConfig
-);
+public class RegExValidator implements ConstraintValidator<RegEx, String> {
 
-cfgBinder.bindGlobal(
-  "/commit-message-checker",
-  "scm-commit-message-checker-plugin.config.link",
-  "commitMessageCheckerConfig",
-  CommitMessageCheckerGlobalConfig
-);
+  @Override
+  public void initialize(RegEx constraintAnnotation) {
+    // do nothing since we don't need this
+  }
 
-binder.bind("commitMessageChecker.validator.CustomRegExValidator", CustomRegExValidatorConfig);
+  @Override
+  public boolean isValid(String object, ConstraintValidatorContext constraintContext) {
+    if (object == null || object.isEmpty()) {
+      return false;
+    }
+    try {
+      Pattern.compile(object);
+      return true;
+    } catch (PatternSyntaxException e) {
+      constraintContext.buildConstraintViolationWithTemplate(e.getMessage()).addConstraintViolation();
+      return false;
+    }
+  }
+}

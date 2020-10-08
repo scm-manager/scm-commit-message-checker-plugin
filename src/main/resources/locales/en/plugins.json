@@ -1,5 +1,104 @@
 {
   "scm-commit-message-checker-plugin": {
-
+    "config": {
+      "link": "Commit Message Validation",
+      "title": "Commit Message Validation",
+      "enabled": {
+        "label": "Enable Commit message validation",
+        "helpText": "If enabled each new commit will validated for the commit message."
+      },
+      "disableRepositoryConfiguration": {
+        "label": "Disabled repository-specific configuration",
+        "helpText": "If checked it is not possible to create a custom configuration for a repository."
+      },
+      "noValidationsConfigured": "There are no validations configured yet.",
+      "newValidation": {
+        "label": "Add new validation",
+        "helpText": "All added validators will be executed for each new commit."
+      },
+      "addValidation": {
+        "label": "Add validation"
+      },
+      "validationTable": {
+        "column": {
+          "name": "Validator",
+          "branches": "Branches",
+          "description": "Description",
+          "errorMessage": "Error message",
+          "deleteValidation": "Delete validation"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "configuration": {
+      "read,write": {
+        "commitMessageChecker": {
+          "displayName": "Modify global commit message validation",
+          "description": "May modify the global commit message validation"
+        }
+      }
+    },
+    "repository": {
+      "readCommitMessageCheckerConfig": {
+        "*": {
+          "displayName": "Read repository-specific commit message validation",
+          "description": "May read the repository-specific commit message validation"
+        }
+      },
+      "writeCommitMessageCheckerConfig": {
+        "*": {
+          "displayName": "Modify repository-specific commit message validation",
+          "description": "May modify the repository-specific commit message validation"
+        }
+      }
+    }
+  },
+  "verbs": {
+    "repository": {
+      "readCommitMessageCheckerConfig": {
+        "displayName": "read commit message validation",
+        "description": "May read the commit message validation"
+      },
+      "writeCommitMessageCheckerConfig": {
+        "displayName": "modify commit message validation",
+        "description": "May modify commit message validation"
+      }
+    }
+  },
+  "validation": {
+    "CustomRegExValidator": {
+      "name": "Custom regex validation",
+      "branches": "{{ branches }}",
+      "allBranches": "<all branches>",
+      "description": "Pattern: {{ pattern }}",
+      "errorMessage": "{{ errorMessage }}",
+      "defaultErrorMessage": "<default error message>"
+    }
+  },
+  "validator": {
+    "CustomRegExValidator": {
+      "name": "Custom regex validator",
+      "description": "Use your custom regular expression pattern for validation.",
+      "pattern": {
+        "label": "Pattern",
+        "helpText": "Custom regular expression for validation.\nExample: ^[A-Za-z0-9 ]+$",
+        "errorMessage": "Please insert a valid pattern."
+      },
+      "branches": {
+        "label": "Branches",
+        "helpText": "List of the branches which should be validated separated by comma. Leave blank to validate all branches.\nExample: master,feature/*"
+      },
+      "errorMessage": {
+        "label": "Error message",
+        "helpText": "Error which will be shown to the user on validation failure. If not set the default message will be shown."
+      }
+    }
+  },
+  "errors": {
+    "4wSBxkux01": {
+      "displayName": "Invalid configuration",
+      "description": "The submitted configuration was invalid. Please check your configuration."
+    }
   }
 }
