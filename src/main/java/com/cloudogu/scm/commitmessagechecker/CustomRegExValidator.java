@@ -24,6 +24,8 @@
 package com.cloudogu.scm.commitmessagechecker;
 
 import com.google.common.base.Strings;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,10 +40,20 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import static com.google.common.cache.CacheBuilder.newBuilder;
+
 @Extension
 public class CustomRegExValidator implements Validator {
 
   private static final String DEFAULT_ERROR_MESSAGE = "The commit message doesn't match the validation pattern.";
+
+  private static final LoadingCache<String, Pattern> REGEX_CACHE =
+    newBuilder().maximumSize(10).build(new CacheLoader<String, Pattern>() {
+      @Override
+      public Pattern load(String key) {
+        return Pattern.compile(key);
+      }
+    });
 
   @Override
   public boolean isApplicableMultipleTimes() {
@@ -82,7 +94,10 @@ public class CustomRegExValidator implements Validator {
   }
 
   private boolean isInvalidCommitMessage(CustomRegExValidatorConfig configuration, String commitMessage) {
-    return !Pattern.matches(configuration.getPattern(), commitMessage);
+    return !REGEX_CACHE
+      .getUnchecked(configuration.getPattern())
+      .matcher(commitMessage)
+      .matches();
   }
 
   @AllArgsConstructor
