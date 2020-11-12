@@ -33,6 +33,7 @@ import sonia.scm.repository.Changeset;
 import sonia.scm.repository.PreReceiveRepositoryHookEvent;
 import sonia.scm.repository.Repository;
 import sonia.scm.repository.api.HookContext;
+import sonia.scm.repository.api.HookFeature;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -59,8 +60,19 @@ public class CommitMessageCheckerHook {
       .ifPresent(
         configuration -> {
           List<Validation> validations = configuration.getValidations();
-          validate(context, event.getRepository(), validations);
+          try {
+            validate(context, event.getRepository(), validations);
+          } catch (RuntimeException e) {
+            contextualizeError(event);
+            throw e;
+          }
         });
+  }
+
+  private void contextualizeError(PreReceiveRepositoryHookEvent event) {
+    if (event.getContext().isFeatureSupported(HookFeature.MESSAGE_PROVIDER)) {
+      event.getContext().getMessageProvider().sendError("Commit message validation:");
+    }
   }
 
   private void validate(HookContext context, Repository repository, List<Validation> validations) {

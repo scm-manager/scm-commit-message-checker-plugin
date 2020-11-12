@@ -42,13 +42,19 @@ import sonia.scm.repository.RepositoryHookType;
 import sonia.scm.repository.RepositoryTestData;
 import sonia.scm.repository.api.HookChangesetBuilder;
 import sonia.scm.repository.api.HookContext;
+import sonia.scm.repository.api.HookFeature;
+import sonia.scm.repository.api.HookMessageProvider;
 
-import java.util.Collections;
 import java.util.Optional;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -77,7 +83,7 @@ class CommitMessageCheckerHookTest {
   @Test
   void shouldNotValidateIfNoValidationsFound() {
     when(configurationProvider.evaluateConfiguration(REPOSITORY))
-      .thenReturn(Optional.of(new Configuration(true, Collections.emptyList())));
+      .thenReturn(Optional.of(new Configuration(true, emptyList())));
 
     PreReceiveRepositoryHookEvent event = new PreReceiveRepositoryHookEvent(new RepositoryHookEvent(hookContext, REPOSITORY, RepositoryHookType.PRE_RECEIVE));
     hook.onEvent(event);
@@ -87,7 +93,7 @@ class CommitMessageCheckerHookTest {
 
   @Test
   void shouldNotValidateIfConfigurationIsDisabled() {
-    when(configurationProvider.evaluateConfiguration(REPOSITORY)).thenReturn(Optional.of(new Configuration(false, Collections.emptyList())));
+    when(configurationProvider.evaluateConfiguration(REPOSITORY)).thenReturn(Optional.of(new Configuration(false, emptyList())));
 
     PreReceiveRepositoryHookEvent event = new PreReceiveRepositoryHookEvent(new RepositoryHookEvent(hookContext, REPOSITORY, RepositoryHookType.PRE_RECEIVE));
     hook.onEvent(event);
@@ -97,14 +103,7 @@ class CommitMessageCheckerHookTest {
 
   @Test
   void shouldValidate() {
-    Object configuration = new Object();
-    when(configurationProvider.evaluateConfiguration(REPOSITORY))
-      .thenReturn(Optional.of(new Configuration(true, ImmutableList.of(new Validation("TestValidator", configuration)))));
-    when(hookContext.getChangesetProvider()).thenReturn(hookChangesetBuilder);
-    Changeset changeset = new Changeset("1", 1L, null, "awesome commit");
-    changeset.setBranches(ImmutableList.of("master"));
-    when(hookChangesetBuilder.getChangesetList()).thenReturn(ImmutableList.of(changeset));
-    when(availableValidators.validatorFor("TestValidator")).thenReturn(validator);
+    Object configuration = prepareValidator("master");
 
     PreReceiveRepositoryHookEvent event = new PreReceiveRepositoryHookEvent(new RepositoryHookEvent(hookContext, REPOSITORY, RepositoryHookType.PRE_RECEIVE));
     hook.onEvent(event);
@@ -119,13 +118,7 @@ class CommitMessageCheckerHookTest {
 
   @Test
   void shouldValidateChangesetWithoutBranches() {
-    Object configuration = new Object();
-    when(configurationProvider.evaluateConfiguration(REPOSITORY))
-      .thenReturn(Optional.of(new Configuration(true, ImmutableList.of(new Validation("TestValidator", configuration)))));
-    when(hookContext.getChangesetProvider()).thenReturn(hookChangesetBuilder);
-    Changeset changeset = new Changeset("1", 1L, null, "awesome commit");
-    when(hookChangesetBuilder.getChangesetList()).thenReturn(ImmutableList.of(changeset));
-    when(availableValidators.validatorFor("TestValidator")).thenReturn(validator);
+    Object configuration = prepareValidator();
 
     PreReceiveRepositoryHookEvent event = new PreReceiveRepositoryHookEvent(new RepositoryHookEvent(hookContext, REPOSITORY, RepositoryHookType.PRE_RECEIVE));
     hook.onEvent(event);
@@ -136,5 +129,32 @@ class CommitMessageCheckerHookTest {
     assertThat(context.getBranch()).isEmpty();
     assertThat(context.getRepository()).isEqualTo(REPOSITORY);
     assertThat(context.getConfiguration()).isEqualTo(configuration);
+  }
+
+  @Test
+  void shouldSendContextMessage() {
+    when(hookContext.isFeatureSupported(HookFeature.MESSAGE_PROVIDER)).thenReturn(true);
+    HookMessageProvider messageProvider = mock(HookMessageProvider.class);
+    when(hookContext.getMessageProvider()).thenReturn(messageProvider);
+
+    prepareValidator("master");
+    doThrow(RuntimeException.class).when(validator).validate(contextCaptor.capture(), eq("awesome commit"));
+
+    PreReceiveRepositoryHookEvent event = new PreReceiveRepositoryHookEvent(new RepositoryHookEvent(hookContext, REPOSITORY, RepositoryHookType.PRE_RECEIVE));
+    assertThrows(RuntimeException.class, () -> hook.onEvent(event));
+
+    verify(messageProvider).sendError("Commit message validation:");
+  }
+
+  private Object prepareValidator(String... branches) {
+    Object configuration = new Object();
+    when(configurationProvider.evaluateConfiguration(REPOSITORY))
+      .thenReturn(Optional.of(new Configuration(true, ImmutableList.of(new Validation("TestValidator", configuration)))));
+    when(hookContext.getChangesetProvider()).thenReturn(hookChangesetBuilder);
+    Changeset changeset = new Changeset("1", 1L, null, "awesome commit");
+    when(hookChangesetBuilder.getChangesetList()).thenReturn(ImmutableList.of(changeset));
+    when(availableValidators.validatorFor("TestValidator")).thenReturn(validator);
+    changeset.setBranches(asList(branches));
+    return configuration;
   }
 }
