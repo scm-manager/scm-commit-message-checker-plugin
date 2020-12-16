@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
-- Mark read only verbs to be able to see pull requests in archived repositories ([#4](https://github.com/scm-manager/scm-commit-message-checker-plugin/pull/4))
+- Mark read only verbs to be able to see commit message checker config in archived repositories ([#4](https://github.com/scm-manager/scm-commit-message-checker-plugin/pull/4))
 
 ## 1.1.0 - 2020-11-12
 ### Added
