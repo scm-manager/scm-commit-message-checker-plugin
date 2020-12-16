@@ -25,7 +25,7 @@
 -->
 <repository-permissions>
   <verbs>
-    <verb>readCommitMessageCheckerConfig</verb>
+    <verb read-only="true">readCommitMessageCheckerConfig</verb>
     <verb>writeCommitMessageCheckerConfig</verb>
   </verbs>
 </repository-permissions>
