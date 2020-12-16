@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 import React, { FC } from "react";
-import { Subtitle, Configuration } from "@scm-manager/ui-components";
+import { Title, Configuration } from "@scm-manager/ui-components";
 import { useTranslation } from "react-i18next";
 import CommitMessageCheckerValidationEditor from "./CommitMessageCheckerValidationEditor";
 import { CommitMessageCheckerConfiguration } from "../types";
@@ -38,7 +38,7 @@ const CommitMessageCheckerGlobalConfig: FC<Props> = ({ link }) => {
 
   return (
     <>
-      <Subtitle subtitle={t("scm-commit-message-checker-plugin.config.title")} />
+      <Title title={t("scm-commit-message-checker-plugin.config.title")} />
       <Configuration link={link} render={props => <CommitMessageCheckerValidationEditor {...props} global={true}/>} />
     </>
   );
