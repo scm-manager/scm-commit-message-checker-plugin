@@ -13,18 +13,18 @@
       },
       "noValidationsConfigured": "There are no validations configured yet.",
       "newValidation": {
-        "label": "Add new validation",
+        "label": "Add New Validation",
         "helpText": "All added validators will be executed for each new commit."
       },
       "addValidation": {
-        "label": "Add validation"
+        "label": "Add Validation"
       },
       "validationTable": {
         "column": {
           "name": "Validator",
           "branches": "Branches",
           "description": "Description",
-          "errorMessage": "Error message",
+          "errorMessage": "Error Message",
           "deleteValidation": "Delete validation"
         }
       }
