@@ -36,7 +36,7 @@
   </parent>
 
   <artifactId>scm-commit-message-checker-plugin</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0-SNAPSHOT</version>
   <packaging>smp</packaging>
   <url>https://github.com/scm-manager/scm-commit-message-checker-plugin</url>
   <description>Validates commit message on each commit for pattern or format.</description>
