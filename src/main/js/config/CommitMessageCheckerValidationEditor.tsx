@@ -45,16 +45,8 @@ type Props = {
   global: boolean;
 };
 
-const AddValidatorLevel = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const ValidatorDetails = styled.p`
+const ValidatorDetails = styled.div`
   flex: 1;
-  padding: 1rem;
-  background: #f5f5f5;
   border-radius: 4px;
 `;
 
@@ -193,9 +185,9 @@ const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration,
           {validationConfigTable}
           {renderAddValidationForm()}
           {selectedValidator && (
-            <AddValidatorLevel>
-              <ValidatorDetails>
-                <h4>{t("validator." + selectedValidator + ".description", validatorConfiguration)}</h4>
+            <div className="is-flex is-justify-content-space-between is-align-items-center">
+              <ValidatorDetails className="has-background-secondary-less p-4">
+                <h3 className="mb-2">{t("validator." + selectedValidator + ".description", validatorConfiguration)}</h3>
                 <ExtensionPoint
                   name={`commitMessageChecker.validator.${selectedValidator}`}
                   renderAll={true}
@@ -218,7 +210,7 @@ const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration,
                   }
                 />
               </ValidatorDetails>
-            </AddValidatorLevel>
+            </div>
           )}
         </>
       )}
