@@ -55,7 +55,7 @@ const ValidationConfigTable: FC<Props> = ({ configuration, deleteValidation }) =
           <th>{t("scm-commit-message-checker-plugin.config.validationTable.column.branches")}</th>
           <th>{t("scm-commit-message-checker-plugin.config.validationTable.column.description")}</th>
           <th>{t("scm-commit-message-checker-plugin.config.validationTable.column.errorMessage")}</th>
-          <th></th>
+          <td className="has-no-style" />
         </tr>
       </thead>
       <tbody>
