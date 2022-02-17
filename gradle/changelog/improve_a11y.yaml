@@ -1,0 +1,2 @@
+- type: fixed
+  description: Improve accessibility ([#27](https://github.com/scm-manager/scm-commit-message-checker-plugin/pull/27))
