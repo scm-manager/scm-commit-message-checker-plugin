@@ -20,7 +20,7 @@ const HgHook: FC<extensionPoints.RepositoryDetailsInformation["props"]> = ({ rep
             " commitctx = repo.commitctx\n" +
             "branch_name = commitctx.branch()\n" +
             "commit_message = commitctx._text\n" +
-            `scm repo commit-message-check ${repository.namespace}/${repository.name} branch_name "commit_message"`}
+            `scm repo commit-message-check ${repository.namespace}/${repository.name} branch_name "commit_message "`}
         </code>
       </pre>
       <span>{"### " + t("scm-commit-message-checker-plugin.hook.hg.enableHook") + "\n\n"}</span>
