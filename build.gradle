@@ -23,14 +23,14 @@
  */
 
 plugins {
-  id 'org.scm-manager.smp' version '0.10.3'
+  id 'org.scm-manager.smp' version '0.10.4'
 }
 
 dependencies {
 }
 
 scmPlugin {
-  scmVersion = "2.31.0"
+  scmVersion = "2.33.0"
   displayName = "Commit Message Checker"
   description = "Validates commit message on each commit for pattern or format"
   author = "Cloudogu GmbH"
