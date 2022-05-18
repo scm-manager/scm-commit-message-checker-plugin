@@ -30,6 +30,7 @@ import com.cloudogu.scm.commitmessagechecker.Validator;
 import com.cloudogu.scm.commitmessagechecker.config.Configuration;
 import com.cloudogu.scm.commitmessagechecker.config.ConfigurationProvider;
 import com.cloudogu.scm.commitmessagechecker.config.Validation;
+import com.google.common.annotations.VisibleForTesting;
 import picocli.CommandLine;
 import sonia.scm.cli.CliContext;
 import sonia.scm.cli.ParentCommand;
@@ -66,7 +67,8 @@ public class CommitMessageCheckerCommand implements Runnable {
   @Inject
   public CommitMessageCheckerCommand(
     TemplateRenderer templateRenderer,
-    CliContext context, ConfigurationProvider configurationProvider,
+    CliContext context,
+    ConfigurationProvider configurationProvider,
     AvailableValidators availableValidators,
     RepositoryManager repositoryManager
   ) {
@@ -98,7 +100,15 @@ public class CommitMessageCheckerCommand implements Runnable {
     for (Validation validation : validations) {
       Validator validator = availableValidators.validatorFor(validation.getName());
       validator.validate(new Context(repo, branch, validation.getConfiguration()), commitMessage);
-
     }
+  }
+
+  @VisibleForTesting
+  void setRepository(String repository) {
+    this.repository = repository;
+  }
+  @VisibleForTesting
+  void setCommitMessage(String commitMessage) {
+    this.commitMessage = commitMessage;
   }
 }
