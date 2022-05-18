@@ -15,12 +15,17 @@ const HgHook: FC<extensionPoints.RepositoryDetailsInformation["props"]> = ({ rep
       <pre>
         <code>
           {"### " + t("scm-commit-message-checker-plugin.hook.hg.prerequisites") + "\n\n"}
-          {"import re,os,sys,mercurial\n" +
+          {"import re,os,sys,mercurial,subprocess\n" +
             "def validate_commit_message(repo, **kwargs):\n" +
-            " commitctx = repo.commitctx\n" +
-            "branch_name = commitctx.branch()\n" +
-            "commit_message = commitctx._text\n" +
-            `scm repo commit-message-check ${repository.namespace}/${repository.name} branch_name "commit_message "`}
+            " commitctx = repo.commitctx\n\n" +
+            " def commit_ctx(ctx, error):\n" +
+            "   branch_name = ctx.branch()\n" +
+            "   commit_message = ctx._text\n" +
+            `   validation = subprocess.run(['scm', 'repo', 'commit-message-check', ${repository.namespace}/${repository.name}, branch_name, commit_message])\n` +
+            "   if validation.returncode > 0:\n" +
+            "     sys.exit(validation.returncode)\n" +
+            "   return commitctx(ctx, error)\n\n" +
+            " repo.commitctx = commit_ctx\n"}
         </code>
       </pre>
       <span>{"### " + t("scm-commit-message-checker-plugin.hook.hg.enableHook") + "\n\n"}</span>
