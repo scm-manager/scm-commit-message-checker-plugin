@@ -22,11 +22,12 @@
  * SOFTWARE.
  */
 
-import {ConfigurationBinder as cfgBinder} from "@scm-manager/ui-components";
+import { ConfigurationBinder as cfgBinder } from "@scm-manager/ui-components";
 import CommitMessageCheckerGlobalConfig from "./config/CommitMessageCheckerGlobalConfig";
 import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerRepositoryConfig";
 import CustomRegExValidatorConfig from "./CustomRegExValidatorConfig";
-import { binder } from "@scm-manager/ui-extensions";
+import { binder, extensionPoints } from "@scm-manager/ui-extensions";
+import GitHook from "./GitHook";
 
 cfgBinder.bindRepositorySetting(
   "/commit-message-checker",
@@ -43,3 +44,12 @@ cfgBinder.bindGlobal(
 );
 
 binder.bind("commitMessageChecker.validator.CustomRegExValidator", CustomRegExValidatorConfig);
+
+export const gitPredicate = (props: extensionPoints.RepositoryDetailsInformation["props"]) => {
+  return !!(props && props.repository && props.repository.type === "git");
+};
+
+binder.bind<extensionPoints.RepositoryDetailsInformation>("repos.repository-details.information", GitHook, {
+  predicate: gitPredicate,
+  priority: 100
+});

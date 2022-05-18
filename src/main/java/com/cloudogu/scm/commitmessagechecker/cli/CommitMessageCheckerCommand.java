@@ -98,6 +98,7 @@ public class CommitMessageCheckerCommand implements Runnable {
     for (Validation validation : validations) {
       Validator validator = availableValidators.validatorFor(validation.getName());
       validator.validate(new Context(repo, branch, validation.getConfiguration()), commitMessage);
+
     }
   }
 }

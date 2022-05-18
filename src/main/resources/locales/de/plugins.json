@@ -28,6 +28,11 @@
           "deleteValidation": "Validierung löschen"
         }
       }
+    },
+    "hook": {
+      "git": {
+        "title": "Git Hook für Commit Nachricht Validierungen"
+      }
     }
   },
   "permissions": {

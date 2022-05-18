@@ -28,6 +28,11 @@
           "deleteValidation": "Delete validation"
         }
       }
+    },
+    "hook": {
+      "git": {
+        "title": "Git hook for commit message validation"
+      }
     }
   },
   "permissions": {
