@@ -31,7 +31,10 @@
     },
     "hook": {
       "git": {
-        "title": "Git hook for commit message validation"
+        "title": "Git hook for commit message validation",
+        "createHook": "Create a new Git hook in your repository in \".git/hooks\":",
+        "script": "Paste the following script into this hook file:",
+        "prerequisites": "For this hook to work you need the [SCM CLI Client](https://scm-manager.org/cli/) installed and connected to your SCM Server."
       }
     }
   },

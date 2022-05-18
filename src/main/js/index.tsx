@@ -51,5 +51,5 @@ export const gitPredicate = (props: extensionPoints.RepositoryDetailsInformation
 
 binder.bind<extensionPoints.RepositoryDetailsInformation>("repos.repository-details.information", GitHook, {
   predicate: gitPredicate,
-  priority: 100
+  priority: 30
 });
