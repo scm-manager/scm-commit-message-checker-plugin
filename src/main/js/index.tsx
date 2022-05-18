@@ -28,6 +28,7 @@ import CommitMessageCheckerRepositoryConfig from "./config/CommitMessageCheckerR
 import CustomRegExValidatorConfig from "./CustomRegExValidatorConfig";
 import { binder, extensionPoints } from "@scm-manager/ui-extensions";
 import GitHook from "./GitHook";
+import HgHook from "./HgHook";
 
 cfgBinder.bindRepositorySetting(
   "/commit-message-checker",
@@ -51,5 +52,14 @@ export const gitPredicate = (props: extensionPoints.RepositoryDetailsInformation
 
 binder.bind<extensionPoints.RepositoryDetailsInformation>("repos.repository-details.information", GitHook, {
   predicate: gitPredicate,
+  priority: 30
+});
+
+export const hgPredicate = (props: extensionPoints.RepositoryDetailsInformation["props"]) => {
+  return !!(props && props.repository && props.repository.type === "hg");
+};
+
+binder.bind<extensionPoints.RepositoryDetailsInformation>("repos.repository-details.information", HgHook, {
+  predicate: hgPredicate,
   priority: 30
 });

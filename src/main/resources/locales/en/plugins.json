@@ -35,6 +35,13 @@
         "createHook": "Create a new Git hook in your repository in \".git/hooks\":",
         "script": "Paste the following script into this hook file:",
         "prerequisites": "For this hook to work you need the [SCM CLI Client](https://scm-manager.org/cli/) installed and connected to your SCM Server."
+      },
+      "hg": {
+        "title": "Mercurial hook for commit message validation",
+        "createHook": "Create a new Mercurial hook in your repository:",
+        "enableHook": "Enable your new hook by adding it into your .hgrc file:",
+        "script": "Paste the following script into this hook file:",
+        "prerequisites": "For this hook to work you need the [SCM CLI Client](https://scm-manager.org/cli/) installed and connected to your SCM Server."
       }
     }
   },
