@@ -39,7 +39,7 @@
       "hg": {
         "title": "Mercurial Hook für Commit Nachricht Validierungen",
         "createHook": "Erstellen Sie zunächst einen neuen Mercurial Hook:",
-        "enableHook": "Aktivieren Sie diesen Hook durch das Hinzufügen in die .hgrc:",
+        "enableHook": "Aktivieren Sie diesen Hook durch das Hinzufügen in die hgrc:",
         "script": "Danach fügen Sie das folgende Script in diesen Hook ein:",
         "prerequisites": "Damit dieser Hook funktioniert muss der [SCM CLI Client](https://scm-manager.org/cli/) installiert und mit dem SCM Server verbunden sein."
       }

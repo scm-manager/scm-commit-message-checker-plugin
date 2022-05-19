@@ -45,7 +45,7 @@ const HgHook: FC<extensionPoints.RepositoryDetailsInformation["props"]> = ({ rep
             " def commit_ctx(ctx, error):\n" +
             "   branch_name = ctx.branch()\n" +
             "   commit_message = ctx._text\n" +
-            `   validation = subprocess.run(['scm', 'repo', 'commit-message-check', ${repository.namespace}/${repository.name}, branch_name, commit_message])\n` +
+            `   validation = subprocess.run(['scm', 'repo', 'commit-message-check', '${repository.namespace}/${repository.name}', branch_name, commit_message])\n` +
             "   if validation.returncode > 0:\n" +
             "     sys.exit(validation.returncode)\n" +
             "   return commitctx(ctx, error)\n\n" +
