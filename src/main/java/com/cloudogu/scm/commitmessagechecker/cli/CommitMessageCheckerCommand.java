@@ -33,6 +33,7 @@ import com.cloudogu.scm.commitmessagechecker.config.Validation;
 import com.google.common.annotations.VisibleForTesting;
 import picocli.CommandLine;
 import sonia.scm.cli.CliContext;
+import sonia.scm.cli.CliResourceBundle;
 import sonia.scm.cli.ParentCommand;
 import sonia.scm.cli.TemplateRenderer;
 import sonia.scm.repository.NamespaceAndName;
@@ -44,7 +45,8 @@ import javax.inject.Inject;
 import java.util.List;
 
 @ParentCommand(RepositoryCommand.class)
-@CommandLine.Command(name = "commit-message-check", aliases = "cmc", resourceBundle = "sonia.scm.cli.i18n")
+@CliResourceBundle("sonia.scm.cmc.cli.i18n")
+@CommandLine.Command(name = "commit-message-check", aliases = "cmc")
 public class CommitMessageCheckerCommand implements Runnable {
 
   @CommandLine.Parameters(paramLabel = "namespace/name", descriptionKey = "scm.repo.cmc.repository", index = "0")
