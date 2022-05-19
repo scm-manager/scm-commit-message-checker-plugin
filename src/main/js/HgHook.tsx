@@ -56,7 +56,7 @@ const HgHook: FC<extensionPoints.RepositoryDetailsInformation["props"]> = ({ rep
       <pre>
         <code>
           {
-            "### Add your hook to your hgrc file\n[hooks]\nprecommit = python:.hg/validate-commit-message.py:validate_commit_message\n\n"
+            "[hooks]\nprecommit = python:.hg/validate-commit-message.py:validate_commit_message\n\n"
           }
         </code>
       </pre>
