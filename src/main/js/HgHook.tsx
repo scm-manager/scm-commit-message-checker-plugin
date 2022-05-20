@@ -31,28 +31,29 @@ const HgHook: FC<extensionPoints.RepositoryDetailsInformation["props"]> = ({ rep
   return (
     <div className="content">
       <h3 className="is-size-5">{t("scm-commit-message-checker-plugin.hook.hg.title")}</h3>
-      <span>{"### " + t("scm-commit-message-checker-plugin.hook.hg.createHook") + "\n\n"}</span>
+      <p>{t("scm-commit-message-checker-plugin.hook.introduction")}</p>
+      <span>### {t("scm-commit-message-checker-plugin.hook.hg.createHook")}</span>
       <pre>
-        <code>{"cd .hg\ntouch validate-commit-message.py\nchmod +x validate-commit-message.py\n\n"}</code>
+        <code>{"touch .hg/validate-commit-message.py\nchmod +x .hg/validate-commit-message.py"}</code>
       </pre>
-      <span> {"### " + t("scm-commit-message-checker-plugin.hook.hg.script") + "\n\n"}</span>
+      <span>### {t("scm-commit-message-checker-plugin.hook.hg.script")}</span>
       <pre>
         <code>
-          {"### " + t("scm-commit-message-checker-plugin.hook.hg.prerequisites") + "\n\n"}
+          {t("scm-commit-message-checker-plugin.hook.hg.prerequisites") + "\n\n"}
           {"import re,os,sys,mercurial,subprocess\n" +
             "def validate_commit_message(repo, **kwargs):\n" +
-            " commitctx = repo.commitctx\n\n" +
-            " def commit_ctx(ctx, error):\n" +
-            "   branch_name = ctx.branch()\n" +
-            "   commit_message = ctx._text\n" +
-            `   validation = subprocess.run(['scm', 'repo', 'commit-message-check', '${repository.namespace}/${repository.name}', branch_name, commit_message])\n` +
-            "   if validation.returncode > 0:\n" +
-            "     sys.exit(validation.returncode)\n" +
-            "   return commitctx(ctx, error)\n\n" +
-            " repo.commitctx = commit_ctx\n"}
+            "  commitctx = repo.commitctx\n\n" +
+            "  def commit_ctx(ctx, error):\n" +
+            "    branch_name = ctx.branch()\n" +
+            "    commit_message = ctx._text\n" +
+            `    exit_code = subprocess.call(['scm', 'repo', 'commit-message-check', '${repository.namespace}/${repository.name}', branch_name, commit_message])\n` +
+            "    if exit_code > 0:\n" +
+            "      sys.exit(exit_code)\n" +
+            "    return commitctx(ctx, error)\n\n" +
+            "  repo.commitctx = commit_ctx\n"}
         </code>
       </pre>
-      <span>{"### " + t("scm-commit-message-checker-plugin.hook.hg.enableHook") + "\n\n"}</span>
+      <span>### {t("scm-commit-message-checker-plugin.hook.hg.enableHook")}</span>
       <pre>
         <code>
           {
