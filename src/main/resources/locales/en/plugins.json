@@ -28,6 +28,22 @@
           "deleteValidation": "Delete validation"
         }
       }
+    },
+    "hook": {
+      "introduction": "To validate you commit messages at commit time, you can create a local hook in your repository. For this hook to work you need the SCM CLI client (https://scm-manager.org/cli/) installed and connected to your SCM Server.",
+      "git": {
+        "title": "Git hook for commit message validation",
+        "createHook": "Create a new Git hook in your repository in \".git/hooks\":",
+        "script": "Paste the following script into this hook file:",
+        "prerequisites": "### For this hook to work you need the SCM CLI client (https://scm-manager.org/cli/)\n### installed and connected to your SCM Server."
+      },
+      "hg": {
+        "title": "Mercurial hook for commit message validation",
+        "createHook": "Create a new Mercurial hook in your repository:",
+        "enableHook": "Enable your new hook by adding it into your .hg/hgrc file:",
+        "script": "Paste the following script into this hook file:",
+        "prerequisites": "### For this hook to work you need the SCM CLI client (https://scm-manager.org/cli/)\n### installed and connected to your SCM Server."
+      }
     }
   },
   "permissions": {

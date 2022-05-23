@@ -1,0 +1,2 @@
+- type: added
+  description: CLI command for commit message validation and usage instructions ([#35](https://github.com/scm-manager/scm-commit-message-checker-plugin/pull/35))
