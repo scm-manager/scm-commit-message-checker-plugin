@@ -59,7 +59,7 @@ public class CommitMessageCheckerCommand implements Runnable {
   private String commitMessage;
 
   @CommandLine.Mixin
-  private final TemplateRenderer templateRenderer;
+  private final CommitMessageCheckerTemplateRenderer templateRenderer;
   private final CliContext context;
 
   private final ConfigurationProvider configurationProvider;
@@ -68,7 +68,7 @@ public class CommitMessageCheckerCommand implements Runnable {
 
   @Inject
   public CommitMessageCheckerCommand(
-    TemplateRenderer templateRenderer,
+    CommitMessageCheckerTemplateRenderer templateRenderer,
     CliContext context,
     ConfigurationProvider configurationProvider,
     AvailableValidators availableValidators,
