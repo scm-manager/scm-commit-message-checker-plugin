@@ -26,6 +26,7 @@ package com.cloudogu.scm.commitmessagechecker.cli;
 
 import com.cloudogu.scm.commitmessagechecker.AvailableValidators;
 import com.cloudogu.scm.commitmessagechecker.Context;
+import com.cloudogu.scm.commitmessagechecker.InvalidCommitMessageException;
 import com.cloudogu.scm.commitmessagechecker.Validator;
 import com.cloudogu.scm.commitmessagechecker.config.Configuration;
 import com.cloudogu.scm.commitmessagechecker.config.ConfigurationProvider;
@@ -35,7 +36,6 @@ import picocli.CommandLine;
 import sonia.scm.cli.CliContext;
 import sonia.scm.cli.CliResourceBundle;
 import sonia.scm.cli.ParentCommand;
-import sonia.scm.cli.TemplateRenderer;
 import sonia.scm.repository.NamespaceAndName;
 import sonia.scm.repository.Repository;
 import sonia.scm.repository.RepositoryManager;
