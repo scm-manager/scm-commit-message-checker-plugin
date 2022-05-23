@@ -90,7 +90,7 @@ public class CommitMessageCheckerCommand implements Runnable {
         configuration -> {
           try {
             validate(configuration, repo);
-          } catch (RuntimeException e) {
+          } catch (InvalidCommitMessageException e) {
             templateRenderer.renderDefaultError(e);
             context.exit(2);
           }
