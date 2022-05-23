@@ -26,6 +26,7 @@ package com.cloudogu.scm.commitmessagechecker.cli;
 
 import com.cloudogu.scm.commitmessagechecker.AvailableValidators;
 import com.cloudogu.scm.commitmessagechecker.Context;
+import com.cloudogu.scm.commitmessagechecker.InvalidCommitMessageException;
 import com.cloudogu.scm.commitmessagechecker.Validator;
 import com.cloudogu.scm.commitmessagechecker.config.Configuration;
 import com.cloudogu.scm.commitmessagechecker.config.ConfigurationProvider;
@@ -59,7 +60,7 @@ class CommitMessageCheckerCommandTest {
   private final Repository repository = RepositoryTestData.create42Puzzle();
 
   @Mock
-  private TemplateRenderer templateRenderer;
+  private CommitMessageCheckerTemplateRenderer templateRenderer;
   @Mock
   private CliContext context;
   @Mock
@@ -111,7 +112,7 @@ class CommitMessageCheckerCommandTest {
     when(configurationProvider.evaluateConfiguration(repository)).thenReturn(Optional.of(configuration));
     command.setCommitMessage("My first valid commit");
 
-    doThrow(RuntimeException.class).when(validator).validate(any(), any());
+    doThrow(InvalidCommitMessageException.class).when(validator).validate(any(), any());
 
     command.run();
 
