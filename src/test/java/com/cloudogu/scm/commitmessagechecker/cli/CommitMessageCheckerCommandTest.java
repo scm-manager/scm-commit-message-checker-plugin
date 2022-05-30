@@ -45,6 +45,8 @@ import sonia.scm.repository.Repository;
 import sonia.scm.repository.RepositoryManager;
 import sonia.scm.repository.RepositoryTestData;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -110,6 +112,7 @@ class CommitMessageCheckerCommandTest {
     Validation validation = new Validation("CustomRegExValidator", new Object());
     Configuration configuration = new Configuration(true, ImmutableList.of(validation));
     when(configurationProvider.evaluateConfiguration(repository)).thenReturn(Optional.of(configuration));
+    when(context.getStderr()).thenReturn(new PrintWriter(new ByteArrayOutputStream()));
     command.setCommitMessage("My first valid commit");
 
     doThrow(InvalidCommitMessageException.class).when(validator).validate(any(), any());
