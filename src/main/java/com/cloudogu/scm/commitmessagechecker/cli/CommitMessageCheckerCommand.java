@@ -92,6 +92,7 @@ public class CommitMessageCheckerCommand implements Runnable {
             validate(configuration, repo);
           } catch (InvalidCommitMessageException e) {
             templateRenderer.renderDefaultError(e);
+            context.getStderr().println();
             context.exit(2);
           }
         });
