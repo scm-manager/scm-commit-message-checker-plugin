@@ -30,7 +30,7 @@ dependencies {
 }
 
 scmPlugin {
-  scmVersion = "2.35.0-SNAPSHOT"
+  scmVersion = "2.35.0"
   displayName = "Commit Message Checker"
   description = "Validates commit message on each commit for pattern or format"
   author = "Cloudogu GmbH"
