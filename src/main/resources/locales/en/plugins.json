@@ -30,7 +30,7 @@
       }
     },
     "hook": {
-      "introduction": "To validate you commit messages at commit time, you can create a local hook in your repository. For this hook to work you need the SCM CLI client (https://scm-manager.org/cli/) installed and connected to your SCM Server.",
+      "introduction": "To validate you commit messages at commit time, you can create a local hook in your repository. For this hook to work you need the <0>SCM CLI Client</0> installed and connected to your SCM Server.",
       "git": {
         "title": "Git hook for commit message validation",
         "createHook": "Create a new Git hook in your repository in \".git/hooks\":",

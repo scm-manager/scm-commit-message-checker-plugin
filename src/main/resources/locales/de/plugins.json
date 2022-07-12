@@ -30,7 +30,7 @@
       }
     },
     "hook": {
-      "introduction": "Um die Commit Nachrichten zum Zeitpunkt des Commits zu validieren, kann ein lokaler Hook im Repository eingerichtet werden. Damit dieser Hook funktioniert, muss der SCM CLI Client (https://scm-manager.org/cli/) installiert und an dem SCM Server angemeldet sein.",
+      "introduction": "Um die Commit Nachrichten zum Zeitpunkt des Commits zu validieren, kann ein lokaler Hook im Repository eingerichtet werden. Damit dieser Hook funktioniert, muss der <0>SCM CLI Client</0> installiert und an dem SCM Server angemeldet sein.",
       "git": {
         "title": "Git Hook für Commit Nachricht Validierungen",
         "createHook": "Erstellen Sie zunächst einen neuen Git Hook namens \"commit-msg\" im Repository unter \".git/hooks\":",
