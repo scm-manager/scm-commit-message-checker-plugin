@@ -1,0 +1,2 @@
+- type: fixed
+  description: Markdown leftovers replaced with html syntax ([#41](https://github.com/scm-manager/scm-commit-message-checker-plugin/pull/41))
