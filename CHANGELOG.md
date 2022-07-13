@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.3.1 - 2022-07-13
+### Fixed
+- Markdown leftovers replaced with html syntax ([#41](https://github.com/scm-manager/scm-commit-message-checker-plugin/pull/41))
+
 ## 1.3.0 - 2022-06-02
 ### Added
 - CLI command for commit message validation and usage instructions ([#35](https://github.com/scm-manager/scm-commit-message-checker-plugin/pull/35))
