@@ -24,6 +24,7 @@
 package com.cloudogu.scm.commitmessagechecker.config;
 
 import com.cloudogu.scm.commitmessagechecker.Constants;
+import org.apache.shiro.authz.AuthorizationException;
 import sonia.scm.config.ConfigurationPermissions;
 import sonia.scm.repository.NamespaceAndName;
 import sonia.scm.repository.Repository;
@@ -50,14 +51,17 @@ class ConfigurationService {
 
   public ConfigurationDto getRepositoryConfiguration(String namespace, String name) {
     Repository repository = loadRepository(namespace, name);
-    RepositoryPermissions.custom(Constants.NAME, repository).check();
+    if (!(RepositoryPermissions.custom(Constants.READ_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).isPermitted() ||
+      RepositoryPermissions.custom(Constants.WRITE_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).isPermitted())) {
+      throw new AuthorizationException();
+    }
     Configuration configuration = configStore.getConfiguration(repository);
     return mapper.map(configuration, repository);
   }
 
   public void updateRepositoryConfiguration(String namespace, String name, ConfigurationDto updatedConfig) {
     Repository repository = loadRepository(namespace, name);
-    RepositoryPermissions.custom(Constants.NAME, repository).check();
+    RepositoryPermissions.custom(Constants.WRITE_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).check();
     configStore.setConfiguration(repository, mapper.map(updatedConfig));
   }
 

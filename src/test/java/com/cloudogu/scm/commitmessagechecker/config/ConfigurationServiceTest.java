@@ -40,9 +40,7 @@ import sonia.scm.repository.RepositoryTestData;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ConfigurationServiceTest {
@@ -72,7 +70,24 @@ class ConfigurationServiceTest {
   }
 
   @Test
-  void shouldGetRepoConfig() {
+  void shouldGetRepoConfigWithReadPermissions() {
+    when(subject.isPermitted("repository:readCommitMessageCheckerConfig:" + REPOSITORY.getId())).thenReturn(true);
+    lenient().when(subject.isPermitted("repository:writeCommitMessageCheckerConfig:" + REPOSITORY.getId())).thenReturn(false);
+    when(repositoryManager.get(REPOSITORY.getNamespaceAndName())).thenReturn(REPOSITORY);
+    Configuration configuration = new Configuration();
+    when(configStore.getConfiguration(REPOSITORY)).thenReturn(configuration);
+    when(mapper.map(configuration, REPOSITORY)).thenReturn(new ConfigurationDto());
+
+    ConfigurationDto repositoryConfiguration = service.getRepositoryConfiguration(REPOSITORY.getNamespace(), REPOSITORY.getName());
+
+    assertThat(repositoryConfiguration.isEnabled()).isFalse();
+    assertThat(repositoryConfiguration.getValidations()).isNullOrEmpty();
+  }
+
+  @Test
+  void shouldGetRepoConfigWithWritePermissions() {
+    when(subject.isPermitted("repository:readCommitMessageCheckerConfig:" + REPOSITORY.getId())).thenReturn(false);
+    when(subject.isPermitted("repository:writeCommitMessageCheckerConfig:" + REPOSITORY.getId())).thenReturn(true);
     when(repositoryManager.get(REPOSITORY.getNamespaceAndName())).thenReturn(REPOSITORY);
     Configuration configuration = new Configuration();
     when(configStore.getConfiguration(REPOSITORY)).thenReturn(configuration);
@@ -86,7 +101,8 @@ class ConfigurationServiceTest {
 
   @Test
   void shouldNotGetRepoConfigIfNotPermitted() {
-    doThrow(AuthorizationException.class).when(subject).checkPermission("repository:commitMessageChecker:" + REPOSITORY.getId());
+    when(subject.isPermitted("repository:readCommitMessageCheckerConfig:" + REPOSITORY.getId())).thenReturn(false);
+    when(subject.isPermitted("repository:writeCommitMessageCheckerConfig:" + REPOSITORY.getId())).thenReturn(false);
     when(repositoryManager.get(REPOSITORY.getNamespaceAndName())).thenReturn(REPOSITORY);
 
     assertThrows(AuthorizationException.class, () -> service.getRepositoryConfiguration(REPOSITORY.getNamespace(), REPOSITORY.getName()));
@@ -106,7 +122,7 @@ class ConfigurationServiceTest {
   @Test
   void shouldNotUpdateRepoConfigIfNotPermitted() {
     when(repositoryManager.get(REPOSITORY.getNamespaceAndName())).thenReturn(REPOSITORY);
-    doThrow(AuthorizationException.class).when(subject).checkPermission("repository:commitMessageChecker:" + REPOSITORY.getId());
+    doThrow(AuthorizationException.class).when(subject).checkPermission("repository:writeCommitMessageCheckerConfig:" + REPOSITORY.getId());
 
     assertThrows(AuthorizationException.class, () -> service.updateRepositoryConfiguration(REPOSITORY.getNamespace(), REPOSITORY.getName(), new ConfigurationDto()));
   }

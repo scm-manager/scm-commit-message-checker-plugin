@@ -65,7 +65,10 @@ public class RepositoryConfigHalEnricher implements HalEnricher {
 
   private boolean shouldAppendLink(Repository repository) {
     return !configStore.getGlobalConfiguration().isDisableRepositoryConfiguration()
-      && RepositoryPermissions.custom(Constants.NAME, repository).isPermitted();
+      && (
+        RepositoryPermissions.custom(Constants.READ_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).isPermitted() ||
+          RepositoryPermissions.custom(Constants.WRITE_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).isPermitted()
+      );
   }
 }
 
