@@ -24,6 +24,7 @@
 package com.cloudogu.scm.commitmessagechecker.config;
 
 import com.cloudogu.scm.commitmessagechecker.AvailableValidators;
+import com.cloudogu.scm.commitmessagechecker.CommitMessageCheckerPermissions;
 import com.cloudogu.scm.commitmessagechecker.Constants;
 import com.cloudogu.scm.commitmessagechecker.Validator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -124,8 +125,7 @@ public abstract class ConfigurationMapper extends BaseMapper {
     if (RepositoryPermissions.custom(WRITE_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).isPermitted()) {
       linksBuilder.single(Link.link("update", update(repository)));
     }
-    if (RepositoryPermissions.custom(READ_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).isPermitted()
-      || RepositoryPermissions.custom(WRITE_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).isPermitted()) {
+    if (CommitMessageCheckerPermissions.mayRead(repository)) {
       linksBuilder.single(link("availableValidators", availableValidators()));
     }
     target.add(linksBuilder.build());

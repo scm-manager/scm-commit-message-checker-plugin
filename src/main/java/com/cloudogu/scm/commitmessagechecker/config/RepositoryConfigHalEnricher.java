@@ -23,7 +23,7 @@
  */
 package com.cloudogu.scm.commitmessagechecker.config;
 
-import com.cloudogu.scm.commitmessagechecker.Constants;
+import com.cloudogu.scm.commitmessagechecker.CommitMessageCheckerPermissions;
 import sonia.scm.api.v2.resources.Enrich;
 import sonia.scm.api.v2.resources.HalAppender;
 import sonia.scm.api.v2.resources.HalEnricher;
@@ -32,7 +32,6 @@ import sonia.scm.api.v2.resources.LinkBuilder;
 import sonia.scm.api.v2.resources.ScmPathInfoStore;
 import sonia.scm.plugin.Extension;
 import sonia.scm.repository.Repository;
-import sonia.scm.repository.RepositoryPermissions;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -65,10 +64,8 @@ public class RepositoryConfigHalEnricher implements HalEnricher {
 
   private boolean shouldAppendLink(Repository repository) {
     return !configStore.getGlobalConfiguration().isDisableRepositoryConfiguration()
-      && (
-        RepositoryPermissions.custom(Constants.READ_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).isPermitted() ||
-          RepositoryPermissions.custom(Constants.WRITE_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).isPermitted()
-      );
+      && CommitMessageCheckerPermissions.mayRead(repository);
   }
+
 }
 
