@@ -90,7 +90,7 @@ class RepositoryConfigHalEnricherTest {
   @Test
   void shouldNotAppendConfigLinkIfUserNotPermitted() {
     mockGlobalConfig(false);
-    when(subject.isPermitted("repository:commitMessageChecker:" + REPOSITORY.getId())).thenReturn(false);
+    when(subject.isPermitted("repository:readCommitMessageCheckerConfig:" + REPOSITORY.getId())).thenReturn(false);
     HalEnricherContext context = HalEnricherContext.of(REPOSITORY);
 
     enricher.enrich(context, appender);
@@ -99,9 +99,21 @@ class RepositoryConfigHalEnricherTest {
   }
 
   @Test
-  void shouldAppendConfigLink() {
+  void shouldAppendConfigLinkForWritePermission() {
     mockGlobalConfig(false);
-    when(subject.isPermitted("repository:commitMessageChecker:" + REPOSITORY.getId())).thenReturn(true);
+    when(subject.isPermitted("repository:readCommitMessageCheckerConfig:" + REPOSITORY.getId())).thenReturn(false);
+    when(subject.isPermitted("repository:writeCommitMessageCheckerConfig:" + REPOSITORY.getId())).thenReturn(true);
+    HalEnricherContext context = HalEnricherContext.of(REPOSITORY);
+
+    enricher.enrich(context, appender);
+
+    verify(appender).appendLink("commitMessageCheckerConfig", "https://scm-manager.org/scm/api/v2/commit-message-checker/configuration/hitchhiker/HeartOfGold");
+  }
+
+  @Test
+  void shouldAppendConfigLinkForReadPermission() {
+    mockGlobalConfig(false);
+    when(subject.isPermitted("repository:readCommitMessageCheckerConfig:" + REPOSITORY.getId())).thenReturn(true);
     HalEnricherContext context = HalEnricherContext.of(REPOSITORY);
 
     enricher.enrich(context, appender);

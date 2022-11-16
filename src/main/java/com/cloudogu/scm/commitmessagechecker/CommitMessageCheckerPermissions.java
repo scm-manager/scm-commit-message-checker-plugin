@@ -21,24 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.cloudogu.scm.commitmessagechecker;
 
-plugins {
-  id 'org.scm-manager.smp' version '0.13.0'
-}
+import org.apache.shiro.authz.AuthorizationException;
+import sonia.scm.repository.Repository;
+import sonia.scm.repository.RepositoryPermissions;
 
-dependencies {
-}
+public class CommitMessageCheckerPermissions {
+  public static boolean mayRead(Repository repository) {
+    return RepositoryPermissions.custom(Constants.READ_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).isPermitted() ||
+      RepositoryPermissions.custom(Constants.WRITE_COMMIT_MESSAGE_CHECKER_PERMISSION, repository).isPermitted();
+  }
 
-scmPlugin {
-  scmVersion = "2.35.0"
-  displayName = "Commit Message Checker"
-  description = "Validates commit message on each commit for pattern or format"
-  author = "Cloudogu GmbH"
-  category = "Workflow"
-
-  openapi {
-    packages = [
-      "com.cloudogu.scm.commitmessagechecker.config",
-    ]
+  public static void checkRead(Repository repository) {
+    if (!(CommitMessageCheckerPermissions.mayRead(repository))) {
+      throw new AuthorizationException();
+    }
   }
 }

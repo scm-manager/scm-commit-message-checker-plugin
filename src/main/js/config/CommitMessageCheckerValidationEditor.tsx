@@ -43,6 +43,7 @@ type Props = {
   initialConfiguration: CommitMessageCheckerConfiguration;
   onConfigurationChange: (config: CommitMessageCheckerConfiguration, valid: boolean) => void;
   global: boolean;
+  readOnly: boolean;
 };
 
 const ValidatorDetails = styled.div`
@@ -50,7 +51,12 @@ const ValidatorDetails = styled.div`
   border-radius: 4px;
 `;
 
-const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration, onConfigurationChange, global }) => {
+const CommitMessageCheckerValidationEditor: FC<Props> = ({
+  initialConfiguration,
+  onConfigurationChange,
+  global,
+  readOnly
+}) => {
   const [t] = useTranslation("plugins");
   const [config, setConfig] = useState(initialConfiguration);
   const [availableValidators, setAvailableValidators] = useState<Validator[]>([]);
@@ -118,6 +124,10 @@ const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration,
   ];
 
   const renderAddValidationForm = () => {
+    if (readOnly) {
+      return null;
+    }
+
     if (loading) {
       return <Loading />;
     }
@@ -145,6 +155,7 @@ const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration,
         helpText={t("scm-commit-message-checker-plugin.config.disableRepositoryConfiguration.helpText")}
         checked={config?.disableRepositoryConfiguration ? config.disableRepositoryConfiguration : false}
         onChange={disableRepositoryConfiguration => setConfig({ ...config, disableRepositoryConfiguration })}
+        readOnly={readOnly}
       />
     </div>
   );
@@ -157,13 +168,14 @@ const CommitMessageCheckerValidationEditor: FC<Props> = ({ initialConfiguration,
         helpText={t("scm-commit-message-checker-plugin.config.enabled.helpText")}
         checked={config.enabled}
         onChange={enabled => setConfig({ ...config, enabled })}
+        readOnly={readOnly}
       />
     </div>
   );
 
   const validationConfigTable =
     config.validations.length > 0 ? (
-      <ValidationConfigTable configuration={config} deleteValidation={deleteValidation} />
+      <ValidationConfigTable configuration={config} deleteValidation={deleteValidation} readOnly={readOnly} />
     ) : (
       <Notification type="info">{t("scm-commit-message-checker-plugin.config.noValidationsConfigured")}</Notification>
     );

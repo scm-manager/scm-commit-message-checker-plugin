@@ -31,6 +31,7 @@ import { CommitMessageCheckerConfiguration, Validation } from "../types";
 type Props = {
   configuration: CommitMessageCheckerConfiguration;
   deleteValidation: (validation: Validation) => void;
+  readOnly: boolean;
 };
 
 const VCenteredTd = styled.td`
@@ -44,7 +45,7 @@ const NoBorderLeft = styled.table`
   }
 `;
 
-const ValidationConfigTable: FC<Props> = ({ configuration, deleteValidation }) => {
+const ValidationConfigTable: FC<Props> = ({ configuration, deleteValidation, readOnly }) => {
   const [t] = useTranslation("plugins");
 
   return (
@@ -75,17 +76,19 @@ const ValidationConfigTable: FC<Props> = ({ configuration, deleteValidation }) =
                 ? t(`validation.${validation.name}.errorMessage`, { ...validation.configuration })
                 : t(`validation.${validation.name}.defaultErrorMessage`)}
             </td>
-            <VCenteredTd>
-              <a
-                className="level-item"
-                onClick={() => deleteValidation(validation)}
-                title={t("scm-commit-message-checker-plugin.config.validationTable.column.deleteValidation")}
-              >
-                <span className="icon is-small">
-                  <Icon name="trash" color="inherit" />
-                </span>
-              </a>
-            </VCenteredTd>
+            {!readOnly ? (
+              <VCenteredTd>
+                <a
+                  className="level-item"
+                  onClick={() => deleteValidation(validation)}
+                  title={t("scm-commit-message-checker-plugin.config.validationTable.column.deleteValidation")}
+                >
+                  <span className="icon is-small">
+                    <Icon name="trash" color="inherit" />
+                  </span>
+                </a>
+              </VCenteredTd>
+            ) : null}
           </tr>
         ))}
       </tbody>
