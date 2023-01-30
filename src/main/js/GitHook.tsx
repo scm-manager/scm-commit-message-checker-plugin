@@ -25,10 +25,20 @@
 import React, { FC } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { extensionPoints } from "@scm-manager/ui-extensions";
-import { SubSubtitle } from "@scm-manager/ui-components";
+import { PreformattedCodeBlock, SubSubtitle } from "@scm-manager/ui-components";
 
 const GitHook: FC<extensionPoints.RepositoryDetailsInformation["props"]> = ({ repository }) => {
   const [t] = useTranslation("plugins");
+
+  const gitCreateHookCommand = "touch .git/hooks/commit-msg\nchmod +x .git/hooks/commit-msg";
+  const gitScriptCommand =
+    "#!/bin/bash\n\n" +
+    t("scm-commit-message-checker-plugin.hook.git.prerequisites") +
+    "\n\n" +
+    "BRANCH_NAME=$(git symbolic-ref --short HEAD)\n" +
+    "COMMIT_MSG_FILE=`cat $1`\n\n" +
+    `scm repo commit-message-check ${repository.namespace}/${repository.name} $BRANCH_NAME "$COMMIT_MSG_FILE"`;
+
   return (
     <div className="content">
       <SubSubtitle>{t("scm-commit-message-checker-plugin.hook.git.title")}</SubSubtitle>
@@ -41,22 +51,11 @@ const GitHook: FC<extensionPoints.RepositoryDetailsInformation["props"]> = ({ re
       </p>
       <p>
         {t("scm-commit-message-checker-plugin.hook.git.createHook")}
-        <pre>
-          <code>{"touch .git/hooks/commit-msg\n" + "chmod +x .git/hooks/commit-msg"}</code>
-        </pre>
+        <PreformattedCodeBlock>{gitCreateHookCommand}</PreformattedCodeBlock>
       </p>
       <p>
         {t("scm-commit-message-checker-plugin.hook.git.script")}
-        <pre>
-          <code>
-            {"#!/bin/bash\n\n" +
-              t("scm-commit-message-checker-plugin.hook.git.prerequisites") +
-              "\n\n" +
-              "BRANCH_NAME=$(git symbolic-ref --short HEAD)\n" +
-              "COMMIT_MSG_FILE=`cat $1`\n\n" +
-              `scm repo commit-message-check ${repository.namespace}/${repository.name} $BRANCH_NAME "$COMMIT_MSG_FILE"`}
-          </code>
-        </pre>
+        <PreformattedCodeBlock>{gitScriptCommand}</PreformattedCodeBlock>
       </p>
     </div>
   );
