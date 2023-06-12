@@ -25,28 +25,10 @@
 import React, { FC } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { extensionPoints } from "@scm-manager/ui-extensions";
-import { PreformattedCodeBlock, SubSubtitle } from "@scm-manager/ui-components";
+import { SubSubtitle } from "@scm-manager/ui-components";
 
 const HgHook: FC<extensionPoints.RepositoryDetailsInformation["props"]> = ({ repository }) => {
   const [t] = useTranslation("plugins");
-
-  const hgCreateHookCommand = "touch .hg/validate-commit-message.py\nchmod +x .hg/validate-commit-message.py";
-  const hgScriptCommand =
-    t("scm-commit-message-checker-plugin.hook.hg.prerequisites") +
-    "\n\n" +
-    "import re,os,sys,mercurial,subprocess\n" +
-    "def validate_commit_message(repo, **kwargs):\n" +
-    "  commitctx = repo.commitctx\n" +
-    "  def commit_ctx(ctx, error):\n" +
-    "    branch_name = ctx.branch()\n" +
-    "    commit_message = ctx._text\n" +
-    `    exit_code = subprocess.call(['scm', 'repo', 'commit-message-check', '${repository.namespace}/${repository.name}', branch_name, commit_message])\n` +
-    "    if exit_code > 0:\n" +
-    "      sys.exit(exit_code)\n" +
-    "    return commitctx(ctx, error)\n" +
-    "  repo.commitctx = commit_ctx";
-  const hgEnableHookCommand = "[hooks]\nprecommit = python:.hg/validate-commit-message.py:validate_commit_message";
-
   return (
     <div className="content">
       <SubSubtitle>{t("scm-commit-message-checker-plugin.hook.hg.title")}</SubSubtitle>
@@ -59,15 +41,35 @@ const HgHook: FC<extensionPoints.RepositoryDetailsInformation["props"]> = ({ rep
       </p>
       <p>
         {t("scm-commit-message-checker-plugin.hook.hg.createHook")}
-        <PreformattedCodeBlock>{hgCreateHookCommand}</PreformattedCodeBlock>
+        <pre>
+          <code>{"touch .hg/validate-commit-message.py\n" + "chmod +x .hg/validate-commit-message.py"}</code>
+        </pre>
       </p>
       <p>
         {t("scm-commit-message-checker-plugin.hook.hg.script")}
-        <PreformattedCodeBlock>{hgScriptCommand}</PreformattedCodeBlock>
+        <pre>
+          <code>
+            {t("scm-commit-message-checker-plugin.hook.hg.prerequisites") +
+              "\n\n" +
+              "import re,os,sys,mercurial,subprocess\n" +
+              "def validate_commit_message(repo, **kwargs):\n" +
+              "  commitctx = repo.commitctx\n" +
+              "  def commit_ctx(ctx, error):\n" +
+              "    branch_name = ctx.branch()\n" +
+              "    commit_message = ctx._text\n" +
+              `    exit_code = subprocess.call(['scm', 'repo', 'commit-message-check', '${repository.namespace}/${repository.name}', branch_name, commit_message])\n` +
+              "    if exit_code > 0:\n" +
+              "      sys.exit(exit_code)\n" +
+              "    return commitctx(ctx, error)\n" +
+              "  repo.commitctx = commit_ctx"}
+          </code>
+        </pre>
       </p>
       <p>
         {t("scm-commit-message-checker-plugin.hook.hg.enableHook")}
-        <PreformattedCodeBlock>{hgEnableHookCommand}</PreformattedCodeBlock>
+        <pre>
+          <code>{"[hooks]\n" + "precommit = python:.hg/validate-commit-message.py:validate_commit_message"}</code>
+        </pre>
       </p>
     </div>
   );
