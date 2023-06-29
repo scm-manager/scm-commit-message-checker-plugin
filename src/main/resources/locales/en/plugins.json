@@ -98,7 +98,7 @@
       "description": "Use your custom regular expression pattern for validation.",
       "pattern": {
         "label": "Pattern",
-        "helpText": "Custom regular expression for validation.\nExample: ^[A-Za-z0-9 ]+$",
+        "helpText": "Custom regular expression for validation. For example to make sure, that the message contains a number with a leading hash, you can use \"#[0-9]+\". If you want the whole message to only contain letters, numbers and spaces, you could use \"^[A-Za-z0-9 ]+$\"",
         "errorMessage": "Please insert a valid pattern."
       },
       "branches": {

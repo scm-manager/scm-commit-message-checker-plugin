@@ -73,4 +73,11 @@ class CustomRegExValidatorTest {
     assertThrows(InvalidCommitMessageException.class,
       () -> validator.validate(new Context(REPOSITORY, "", config), "invalid message 123!"));
   }
+
+  @Test
+  void shouldAcceptPartialExpression() {
+    String regex = "#[0-9]+";
+    CustomRegExValidatorConfig config = new CustomRegExValidatorConfig(regex, "master", "Need ticket number");
+    validator.validate(new Context(REPOSITORY, "master", config), "Ticket #42 fixed");
+  }
 }

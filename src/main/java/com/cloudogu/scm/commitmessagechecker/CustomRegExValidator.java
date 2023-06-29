@@ -97,7 +97,7 @@ public class CustomRegExValidator implements Validator {
     return !REGEX_CACHE
       .getUnchecked(configuration.getPattern())
       .matcher(commitMessage)
-      .matches();
+      .find();
   }
 
   @AllArgsConstructor

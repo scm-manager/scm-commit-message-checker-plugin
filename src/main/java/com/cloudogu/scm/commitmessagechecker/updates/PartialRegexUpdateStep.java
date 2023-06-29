@@ -22,23 +22,46 @@
  * SOFTWARE.
  */
 
-plugins {
-  id 'org.scm-manager.smp' version '0.15.0'
-}
+package com.cloudogu.scm.commitmessagechecker.updates;
 
-dependencies {
-}
+import com.cloudogu.scm.commitmessagechecker.updates.PartialRegexUpdater.GlobalRootConfiguration;
+import sonia.scm.migration.UpdateStep;
+import sonia.scm.plugin.Extension;
+import sonia.scm.store.ConfigurationStore;
+import sonia.scm.store.ConfigurationStoreFactory;
+import sonia.scm.version.Version;
 
-scmPlugin {
-  scmVersion = "2.44.0"
-  displayName = "Commit Message Checker"
-  description = "Validates commit message on each commit for pattern or format"
-  author = "Cloudogu GmbH"
-  category = "Workflow"
+import javax.inject.Inject;
 
-  openapi {
-    packages = [
-      "com.cloudogu.scm.commitmessagechecker.config",
-    ]
+@Extension
+public class PartialRegexUpdateStep implements UpdateStep {
+
+  private final ConfigurationStoreFactory storeFactory;
+
+  @Inject
+  public PartialRegexUpdateStep(ConfigurationStoreFactory storeFactory) {
+    this.storeFactory = storeFactory;
+  }
+
+  @Override
+  public void doUpdate() {
+    ConfigurationStore<GlobalRootConfiguration> store = storeFactory
+      .withType(GlobalRootConfiguration.class)
+      .withName("commitMessageChecker")
+      .build();
+
+    store.getOptional()
+      .map(PartialRegexUpdater::doUpdate)
+      .ifPresent(store::set);
+  }
+
+  @Override
+  public Version getTargetVersion() {
+    return Version.parse("1.1.0");
+  }
+
+  @Override
+  public String getAffectedDataType() {
+    return "scm.commit-message-checker.regex";
   }
 }

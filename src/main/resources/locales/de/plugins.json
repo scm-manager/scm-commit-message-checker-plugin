@@ -98,7 +98,7 @@
       "description": "Eigenen regulären Ausdruck für Validierung angeben.",
       "pattern": {
         "label": "Muster",
-        "helpText": "Eigener regulärer Ausdruck für Validierung.\nBeispiel: ^[A-Za-z0-9]+$",
+        "helpText": "Eigener regulärer Ausdruck für Validierung. Um z. B. sicherzustellen, dass die Nachricht eine Nummer mit einem führenden Hash-Zeichen enthält, kann der Ausdruck \"#[0-9]+\" genutzt werden. Eine Prüfung, dass die gesamte Nachricht nur Buchstaben, Zahlen und Leerzeichen enthalten darf, wäre \"^[A-Za-z0-9 ]+$\"",
         "errorMessage": "Bitte ein gültiges Muster angeben."
       },
       "branches": {
