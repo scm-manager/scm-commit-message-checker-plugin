@@ -33,13 +33,13 @@ import com.cloudogu.scm.commitmessagechecker.config.ConfigurationProvider;
 import com.cloudogu.scm.commitmessagechecker.config.Validation;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import sonia.scm.cli.CliContext;
-import sonia.scm.cli.TemplateRenderer;
 import sonia.scm.repository.NamespaceAndName;
 import sonia.scm.repository.Repository;
 import sonia.scm.repository.RepositoryManager;
@@ -53,6 +53,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -75,51 +76,65 @@ class CommitMessageCheckerCommandTest {
   @InjectMocks
   private CommitMessageCheckerCommand command;
 
-
-  @BeforeEach
-  void initCommand() {
-    command.setRepository(repository.getNamespaceAndName().toString());
-    when(repositoryManager.get(any(NamespaceAndName.class))).thenReturn(repository);
-  }
-
   @Test
-  void shouldNotValidateWithoutConfiguredRules() {
-    command.setCommitMessage("My first valid commit");
-    command.run();
-
-    verify(configurationProvider).evaluateConfiguration(repository);
-  }
-
-  @Test
-  void shouldValidateConfiguredRules() {
-    Validator validator = mock(Validator.class);
-    when(availableValidators.validatorFor("CustomRegExValidator")).thenReturn(validator);
-    Validation validation = new Validation("CustomRegExValidator", new Object());
-    Configuration configuration = new Configuration(true, ImmutableList.of(validation));
-    when(configurationProvider.evaluateConfiguration(repository)).thenReturn(Optional.of(configuration));
+  void shouldHandleNotExistingRepository() {
+    command.setRepository("no_such/repo");
+    when(repositoryManager.get(any(NamespaceAndName.class))).thenReturn(null);
 
     command.setCommitMessage("My first valid commit");
     command.run();
 
-    verify(configurationProvider).evaluateConfiguration(repository);
-    verify(validator).validate(any(Context.class), eq("My first valid commit"));
+    verify(templateRenderer).renderNotFoundError();
+    verify(configurationProvider, never()).evaluateConfiguration(repository);
   }
 
-  @Test
-  void shouldRenderErrorIfNotValid() {
-    Validator validator = mock(Validator.class);
-    when(availableValidators.validatorFor("CustomRegExValidator")).thenReturn(validator);
-    Validation validation = new Validation("CustomRegExValidator", new Object());
-    Configuration configuration = new Configuration(true, ImmutableList.of(validation));
-    when(configurationProvider.evaluateConfiguration(repository)).thenReturn(Optional.of(configuration));
-    when(context.getStderr()).thenReturn(new PrintWriter(new ByteArrayOutputStream()));
-    command.setCommitMessage("My first valid commit");
+  @Nested
+  class WithRepository {
+    @BeforeEach
+    void initCommand() {
+      command.setRepository(repository.getNamespaceAndName().toString());
+      when(repositoryManager.get(any(NamespaceAndName.class))).thenReturn(repository);
+    }
 
-    doThrow(InvalidCommitMessageException.class).when(validator).validate(any(), any());
+    @Test
+    void shouldNotValidateWithoutConfiguredRules() {
+      command.setCommitMessage("My first valid commit");
+      command.run();
 
-    command.run();
+      verify(configurationProvider).evaluateConfiguration(repository);
+    }
 
-    verify(templateRenderer).renderDefaultError(any(Exception.class));
-    verify(context).exit(2);
+    @Test
+    void shouldValidateConfiguredRules() {
+      Validator validator = mock(Validator.class);
+      when(availableValidators.validatorFor("CustomRegExValidator")).thenReturn(validator);
+      Validation validation = new Validation("CustomRegExValidator", new Object());
+      Configuration configuration = new Configuration(true, ImmutableList.of(validation));
+      when(configurationProvider.evaluateConfiguration(repository)).thenReturn(Optional.of(configuration));
+
+      command.setCommitMessage("My first valid commit");
+      command.run();
+
+      verify(configurationProvider).evaluateConfiguration(repository);
+      verify(validator).validate(any(Context.class), eq("My first valid commit"));
+    }
+
+    @Test
+    void shouldRenderErrorIfNotValid() {
+      Validator validator = mock(Validator.class);
+      when(availableValidators.validatorFor("CustomRegExValidator")).thenReturn(validator);
+      Validation validation = new Validation("CustomRegExValidator", new Object());
+      Configuration configuration = new Configuration(true, ImmutableList.of(validation));
+      when(configurationProvider.evaluateConfiguration(repository)).thenReturn(Optional.of(configuration));
+      when(context.getStderr()).thenReturn(new PrintWriter(new ByteArrayOutputStream()));
+      command.setCommitMessage("My first valid commit");
+
+      doThrow(InvalidCommitMessageException.class).when(validator).validate(any(), any());
+
+      command.run();
+
+      verify(templateRenderer).renderDefaultError(any(Exception.class));
+      verify(context).exit(2);
+    }
   }
 }

@@ -85,6 +85,10 @@ public class CommitMessageCheckerCommand implements Runnable {
   public void run() {
     String[] splitRepo = repository.split("/");
     Repository repo = repositoryManager.get(new NamespaceAndName(splitRepo[0], splitRepo[1]));
+    if (repo == null) {
+      templateRenderer.renderNotFoundError();
+      return;
+    }
     configurationProvider.evaluateConfiguration(repo)
       .ifPresent(
         configuration -> {
