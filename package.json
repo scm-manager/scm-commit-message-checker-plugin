@@ -1,7 +1,7 @@
 {
     "name": "@scm-manager/scm-commit-message-checker-plugin",
     "private": true,
-    "version": "1.5.1-SNAPSHOT",
+    "version": "1.5.1",
     "license": "MIT",
     "main": "./src/main/js/index.tsx",
     "author": "Eduard Heimbuch <eduard.heimbuch@cloudogu.com>",
@@ -12,7 +12,7 @@
         "postinstall": "plugin-scripts postinstall"
     },
     "dependencies": {
-        "@scm-manager/ui-plugins": "2.42.0",
+        "@scm-manager/ui-plugins": "2.44.0",
         "@scm-manager/ui-components": "2.42.0",
         "@scm-manager/ui-extensions": "2.42.0",
         "classnames": "^2.2.6",
