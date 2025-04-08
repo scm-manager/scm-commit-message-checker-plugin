@@ -1,15 +1,15 @@
 {
   "scm-commit-message-checker-plugin": {
     "config": {
-      "link": "Commit Nachricht Validierung",
-      "title": "Commit Nachricht Validierung",
+      "link": "Commit-Nachricht-Validierung",
+      "title": "Commit-Nachricht-Validierung",
       "enabled": {
-        "label": "Commit Nachricht Validierung aktivieren",
-        "helpText": "Wenn aktiv, wird jede neue Commit Nachricht validiert. Ungültige Commits werden blockiert."
+        "label": "Commit-Nachricht-Validierung aktivieren",
+        "helpText": "Wenn aktiv, wird jede neue Commit-Nachricht validiert. Ungültige Commits werden blockiert."
       },
       "disableRepositoryConfiguration": {
-        "label": "Commit Nachricht Validierungen nicht für einzelne Repositories konfigurierbar machen.",
-        "helpText": "Es können keine individuellen Commit Validierungen in Repositories angelegt werden."
+        "label": "Commit-Nachricht-Validierungen nicht für einzelne Repositories konfigurierbar machen.",
+        "helpText": "Es können keine individuellen Commit-Validierungen in Repositories angelegt werden."
       },
       "noValidationsConfigured": "Es wurden noch keine Validierungen angelegt.",
       "newValidation": {
@@ -30,19 +30,19 @@
       }
     },
     "hook": {
-      "introduction": "Um die Commit Nachrichten zum Zeitpunkt des Commits zu validieren, kann ein lokaler Hook im Repository eingerichtet werden. Damit dieser Hook funktioniert, muss der <0>SCM CLI Client</0> installiert und an dem SCM Server angemeldet sein.",
+      "introduction": "Um die Commit-Nachrichten zum Zeitpunkt des Commits zu validieren, kann ein lokaler Hook im Repository eingerichtet werden. Damit dieser Hook funktioniert, muss der <0>SCM CLI Client</0> installiert und an dem SCM-Server angemeldet sein.",
       "git": {
-        "title": "Git Hook für Commit Nachricht Validierungen",
-        "createHook": "Erstellen Sie zunächst einen neuen Git Hook namens \"commit-msg\" im Repository unter \".git/hooks\":",
+        "title": "Git-Hook für Commit-Nachricht-Validierungen",
+        "createHook": "Erstellen Sie zunächst einen neuen Git-Hook namens \"commit-msg\" im Repository unter \".git/hooks\":",
         "script": "Danach fügen Sie das folgende Script in diesen Hook ein:",
-        "prerequisites": "### Damit dieser Hook funktioniert muss der SCM CLI Client (https://scm-manager.org/cli/)\n### installiert und mit dem SCM Server verbunden sein."
+        "prerequisites": "### Damit dieser Hook funktioniert, muss der SCM-CLI-Client (https://scm-manager.org/cli/)\n### installiert und mit dem SCM-Server verbunden sein."
       },
       "hg": {
-        "title": "Mercurial Hook für Commit Nachricht Validierungen",
-        "createHook": "Erstellen Sie zunächst einen neuen Mercurial Hook:",
+        "title": "Mercurial-Hook für Commit-Nachricht-Validierungen",
+        "createHook": "Erstellen Sie zunächst einen neuen Mercurial-Hook:",
         "enableHook": "Aktivieren Sie diesen Hook durch das Hinzufügen in die Datei .hg/hgrc:",
         "script": "Danach fügen Sie das folgende Script in diesen Hook ein:",
-        "prerequisites": "### Damit dieser Hook funktioniert muss der SCM CLI Client (https://scm-manager.org/cli/)\n### installiert und mit dem SCM Server verbunden sein."
+        "prerequisites": "### Damit dieser Hook funktioniert, muss der SCM-CLI-Client (https://scm-manager.org/cli/)\n### installiert und mit dem SCM-Server verbunden sein."
       }
     }
   },
@@ -50,22 +50,22 @@
     "configuration": {
       "read,write": {
         "commitMessageChecker": {
-          "displayName": "Globale Commit Nachricht Validierung ändern",
-          "description": "Darf die globale Commit Nachricht Validierung verändern"
+          "displayName": "Globale Commit-Nachricht-Validierung ändern",
+          "description": "Darf die globale Commit-Nachricht-Validierung verändern"
         }
       }
     },
     "repository": {
       "readCommitMessageCheckerConfig": {
         "*": {
-          "displayName": "Repository-spezifische Commit Nachricht Validierung lesen",
-          "description": "Darf die repository-spezifische Commit Nachricht Validierung lesen"
+          "displayName": "Repository-spezifische Commit-Nachricht-Validierung lesen",
+          "description": "Darf die repository-spezifische Commit-Nachricht-Validierung lesen"
         }
       },
       "writeCommitMessageCheckerConfig": {
         "*": {
-          "displayName": "Repository-spezifische Commit Nachricht Validierung ändern",
-          "description": "Darf die repository-spezifische Commit Nachricht Validierung verändern"
+          "displayName": "Repository-spezifische Commit-Nachricht-Validierung ändern",
+          "description": "Darf die repository-spezifische Commit-Nachricht-Validierung verändern"
         }
       }
     }
@@ -73,18 +73,18 @@
   "verbs": {
     "repository": {
       "readCommitMessageCheckerConfig": {
-        "displayName": "Commit Nachricht Validierung lesen",
-        "description": "Darf die Commit Nachricht Validierung lesen"
+        "displayName": "Commit-Nachricht-Validierung-lesen",
+        "description": "Darf die Commit-Nachricht-Validierung lesen"
       },
       "writeCommitMessageCheckerConfig": {
-        "displayName": "Commit Nachricht Validierung ändern",
-        "description": "Darf die Commit Nachricht Validierung verändern"
+        "displayName": "Commit-Nachricht-Validierung ändern",
+        "description": "Darf die Commit-Nachricht-Validierung verändern"
       }
     }
   },
   "validation": {
     "CustomRegExValidator": {
-      "name": "Eigene RegEx Validierung",
+      "name": "Eigene RegEx-Validierung",
       "branches": "{{ branches }}",
       "allBranches": "<Alle Branches>",
       "description": "Muster: {{ pattern }}",
@@ -94,7 +94,7 @@
   },
   "validator": {
     "CustomRegExValidator": {
-      "name": "Benutzerdefinierter RegEx Validator",
+      "name": "Benutzerdefinierter RegEx-Validator",
       "description": "Eigenen regulären Ausdruck für Validierung angeben.",
       "pattern": {
         "label": "Muster",
@@ -107,7 +107,7 @@
       },
       "errorMessage": {
         "label": "Fehlermeldung",
-        "helpText": "Die Fehlermeldung, welche dem Benutzer bei einer ungültigen Commit Nachricht angezeigt wird. Wird keine gesetzt, wird die Standard-Fehlermeldung angezeigt."
+        "helpText": "Die Fehlermeldung, welche dem Benutzer bei einer ungültigen Commit-Nachricht angezeigt wird. Wird keine gesetzt, wird die Standard-Fehlermeldung angezeigt."
       }
     }
   },

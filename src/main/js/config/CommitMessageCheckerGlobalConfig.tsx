@@ -15,24 +15,29 @@
  */
 
 import React, { FC } from "react";
-import { Title, Configuration } from "@scm-manager/ui-components";
 import { useTranslation } from "react-i18next";
+import { Configuration } from "@scm-manager/ui-components";
+import { Title, useDocumentTitle } from "@scm-manager/ui-core";
 import CommitMessageCheckerValidationEditor from "./CommitMessageCheckerValidationEditor";
 import { CommitMessageCheckerConfiguration } from "../types";
 
 type Props = {
   link: string;
   initialConfiguration: CommitMessageCheckerConfiguration;
-  onConfigurationChange: (config: CommitMessageCheckerConfiguration, valid: boolean) => void
+  onConfigurationChange: (config: CommitMessageCheckerConfiguration, valid: boolean) => void;
 };
 
 const CommitMessageCheckerGlobalConfig: FC<Props> = ({ link }) => {
   const [t] = useTranslation("plugins");
+  useDocumentTitle(t("scm-commit-message-checker-plugin.config.title"));
 
   return (
     <>
       <Title title={t("scm-commit-message-checker-plugin.config.title")} />
-      <Configuration link={link} render={props => <CommitMessageCheckerValidationEditor {...props} global={true}/>} />
+      <Configuration
+        link={link}
+        render={(props) => <CommitMessageCheckerValidationEditor {...props} global={true} />}
+      />
     </>
   );
 };
