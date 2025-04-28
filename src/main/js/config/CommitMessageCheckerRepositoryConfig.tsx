@@ -17,8 +17,7 @@
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Configuration } from "@scm-manager/ui-components";
-import { Subtitle, useDocumentTitleForRepository } from "@scm-manager/ui-core";
-import { Repository } from "@scm-manager/ui-types";
+import { Subtitle } from "@scm-manager/ui-core";
 import CommitMessageCheckerValidationEditor from "./CommitMessageCheckerValidationEditor";
 import { CommitMessageCheckerConfiguration } from "../types";
 
@@ -26,12 +25,10 @@ type Props = {
   link: string;
   initialConfiguration: CommitMessageCheckerConfiguration;
   onConfigurationChange: (config: CommitMessageCheckerConfiguration, valid: boolean) => void;
-  repository: Repository;
 };
 
-const CommitMessageCheckerRepositoryConfig: FC<Props> = ({ link, repository }) => {
+const CommitMessageCheckerRepositoryConfig: FC<Props> = ({ link }) => {
   const [t] = useTranslation("plugins");
-  useDocumentTitleForRepository(repository, t("scm-commit-message-checker-plugin.config.title"));
 
   return (
     <>
