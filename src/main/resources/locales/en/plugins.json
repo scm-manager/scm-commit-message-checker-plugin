@@ -115,6 +115,10 @@
     "4wSBxkux01": {
       "displayName": "Invalid configuration",
       "description": "The submitted configuration was invalid. Please check your configuration."
+    },
+    "6iSC54Smd1": {
+      "displayName": "Invalid commit message",
+      "description": "The commit message does not match the configured rules."
     }
   }
 }

@@ -115,6 +115,10 @@
     "4wSBxkux01": {
       "displayName": "Ungültige Konfiguration",
       "description": "Die gespeicherte Konfiguration ist ungültig. Bitte prüfen Sie Ihre Eingaben."
+    },
+    "6iSC54Smd1": {
+      "displayName": "Ungültige Commit-Nachricht",
+      "description": "Die Commit-Nachricht entspricht nicht den konfigurierten Regeln."
     }
   }
 }
