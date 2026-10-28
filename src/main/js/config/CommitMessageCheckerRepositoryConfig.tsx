@@ -17,18 +17,14 @@
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Configuration } from "@scm-manager/ui-components";
-import { Subtitle } from "@scm-manager/ui-core";
+import { Subtitle, useRepositoryFromParams } from "@scm-manager/ui-core";
 import CommitMessageCheckerValidationEditor from "./CommitMessageCheckerValidationEditor";
-import { CommitMessageCheckerConfiguration } from "../types";
+import { Link } from "@scm-manager/ui-types";
 
-type Props = {
-  link: string;
-  initialConfiguration: CommitMessageCheckerConfiguration;
-  onConfigurationChange: (config: CommitMessageCheckerConfiguration, valid: boolean) => void;
-};
-
-const CommitMessageCheckerRepositoryConfig: FC<Props> = ({ link }) => {
+const CommitMessageCheckerRepositoryConfig: FC = () => {
   const [t] = useTranslation("plugins");
+  const repository = useRepositoryFromParams();
+  const link = (repository._links["commitMessageCheckerConfig"] as Link).href;
 
   return (
     <>

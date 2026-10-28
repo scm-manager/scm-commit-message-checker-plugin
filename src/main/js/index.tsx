@@ -29,7 +29,7 @@ cfgBinder.bindRepositorySetting(
   CommitMessageCheckerRepositoryConfig
 );
 
-cfgBinder.bindGlobal(
+cfgBinder.bindAdminSetting(
   "/commit-message-checker",
   "scm-commit-message-checker-plugin.config.link",
   "commitMessageCheckerConfig",
